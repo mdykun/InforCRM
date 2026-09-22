@@ -1,0 +1,2469 @@
+/* Modern appearance only. Load AFTER the ORIGINAL sage-styles.css. Do not replace it. */
+
+/* vars: appearance overrides */
+
+/* Light themes use soft neutral surfaces with a hint of the current accent. */
+:root:not([data-theme-mode="dark"]):not([data-theme-mode="contrast"]),
+[data-theme-mode="light"] {
+  --body-color-primary-background: #f6f7f8;
+  --body-color-secondary-background: #edf0f2;
+  --input-color-initial-background: #fafbfc;
+}
+@supports (background: color-mix(in srgb, red 3%, #f7f8fa)) {
+  :root:not([data-theme-mode="dark"]):not([data-theme-mode="contrast"]),
+  [data-theme-mode="light"] {
+    --body-color-primary-background: color-mix(in srgb, var(--slx-header-color) 3%, #f7f8fa);
+    --body-color-secondary-background: color-mix(in srgb, var(--slx-header-color) 5%, #eef0f3);
+    --input-color-initial-background: color-mix(in srgb, var(--slx-header-color) 1.5%, #fafbfc);
+  }
+}
+
+/* Semantic aliases are rebound at theme boundaries, including nested themes. */
+:root, [data-theme-mode], [data-theme-color] {
+  --modern-surface: var(--body-color-primary-background);
+  --modern-surface-alt: var(--body-color-secondary-background);
+  --modern-text: var(--body-color-primary-font);
+  --modern-muted: var(--ids-color-font-muted);
+  --modern-accent: var(--slx-header-color);
+  /* Darker palette tone keeps white button text readable for all eight accents. */
+  --modern-action: var(--slx-subheader-color);
+  --modern-on-accent: var(--ids-color-palette-white);
+  --modern-border: var(--slx-widget-border-color);
+  --modern-hover: var(--body-color-secondary-background);
+  --modern-selected: var(--body-color-secondary-background);
+  --modern-radius: 8px;
+  --modern-radius-lg: 12px;
+  --modern-shadow: 0 2px 8px var(--slx-boxshadow-color);
+  --modern-shadow-raised: 0 8px 28px var(--slx-boxshadow-color);
+  --modern-motion: 140ms ease;
+  --modern-font: "Segoe UI", var(--ids-font-family-base);
+  --modern-grid-line: var(--slx-widget-border-color);
+  --modern-grid-link: var(--slx-subheader-color);
+}
+@supports (background: color-mix(in srgb, red, blue)) {
+  :root, [data-theme-mode], [data-theme-color] {
+    --modern-hover: color-mix(in srgb, var(--modern-accent) 8%, var(--modern-surface));
+    --modern-selected: color-mix(in srgb, var(--modern-accent) 15%, var(--modern-surface));
+    --modern-grid-line: color-mix(in srgb, var(--modern-text) 14%, var(--modern-surface));
+  }
+  [data-theme-mode="dark"] {
+    --modern-grid-link: color-mix(in srgb, var(--slx-header-color) 40%, white);
+  }
+}
+[data-theme-mode="contrast"] { --modern-grid-line: var(--ids-color-font-base); }
+[data-theme-mode="light"] { color-scheme: light; }
+[data-theme-mode="contrast"] {
+  color-scheme: light;
+  --modern-border: var(--ids-color-font-base);
+  --modern-shadow: none;
+  --modern-shadow-raised: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  :root, [data-theme-mode], [data-theme-color] { --modern-motion: 0s; }
+}
+
+
+/* inforSoHoXi: appearance overrides */
+
+/* Checkbox inputs keep their original semantics and keyboard/form behavior.
+   Exclude Dijit radios: their template also carries the dijitCheckBox class. */
+:root .inforSoHoXi .dijitCheckBox:not(.dijitRadio) {
+  position: relative;
+  box-sizing: border-box;
+  width: 36px;
+  height: 20px;
+  border: 1px solid var(--modern-muted);
+  border-radius: 999px;
+  background: var(--modern-surface-alt) !important;
+  overflow: hidden;
+  vertical-align: middle;
+  transition: background-color var(--modern-motion);
+}
+:root .inforSoHoXi .dijitCheckBox:not(.dijitRadio)::after {
+  content: "";
+  position: absolute;
+  inset-block-start: 3px;
+  inset-inline-start: 3px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--modern-muted);
+  pointer-events: none;
+  transition: inset-inline-start var(--modern-motion);
+}
+:root .inforSoHoXi .dijitCheckBoxChecked:not(.dijitRadio) {
+  background: var(--modern-accent) !important;
+  border-color: var(--modern-accent);
+}
+:root .inforSoHoXi .dijitCheckBoxChecked:not(.dijitRadio)::after {
+  inset-inline-start: 19px;
+  background: var(--modern-on-accent);
+}
+:root .inforSoHoXi .dijitCheckBox:not(.dijitRadio) .dijitCheckBoxInput {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  z-index: 1;
+  cursor: pointer;
+}
+:root .inforSoHoXi .dijitCheckBoxFocused:not(.dijitRadio),
+:root .inforSoHoXi .dijitCheckBox:not(.dijitRadio):focus-within {
+  outline: 2px solid var(--modern-accent);
+  outline-offset: 2px;
+}
+:root .inforSoHoXi .dijitCheckBoxDisabled:not(.dijitRadio) {
+  opacity: var(--ids-number-opacity-disabled);
+}
+:root .inforSoHoXi .dijitCheckBoxDisabled:not(.dijitRadio) input { cursor: not-allowed; }
+/* Native controls use a radial thumb; no replacement element or JavaScript. */
+:root .inforSoHoXi input[type="checkbox"]:not(.dijitCheckBoxInput):not(.slx-keep-checkbox) {
+  appearance: none;
+  box-sizing: border-box;
+  display: inline-block;
+  width: 36px;
+  height: 20px;
+  min-width: 36px;
+  padding: 0;
+  border: 1px solid var(--modern-muted);
+  border-radius: 999px;
+  vertical-align: middle;
+  background: radial-gradient(circle, var(--modern-muted) 6px, transparent 6.5px) 2px center / 14px 14px no-repeat var(--modern-surface-alt);
+  cursor: pointer;
+  transition: background-position var(--modern-motion), background-color var(--modern-motion);
+}
+:root .inforSoHoXi input[type="checkbox"]:not(.dijitCheckBoxInput):not(.slx-keep-checkbox):checked {
+  background-color: var(--modern-accent);
+  background-image: radial-gradient(circle, var(--modern-on-accent) 6px, transparent 6.5px);
+  background-position: calc(100% - 2px) center;
+  border-color: var(--modern-accent);
+}
+:root .inforSoHoXi input[type="checkbox"]:not(.dijitCheckBoxInput):not(.slx-keep-checkbox):indeterminate {
+  background-position: center;
+  background-image: linear-gradient(var(--modern-muted), var(--modern-muted));
+  background-size: 12px 3px;
+}
+:root .inforSoHoXi input[type="checkbox"]:disabled { opacity: var(--ids-number-opacity-disabled); cursor: not-allowed; }
+:root .inforSoHoXi input[type="checkbox"]:dir(rtl):not(.dijitCheckBoxInput):not(.slx-keep-checkbox) { background-position: calc(100% - 2px) center; }
+:root .inforSoHoXi input[type="checkbox"]:dir(rtl):not(.dijitCheckBoxInput):not(.slx-keep-checkbox):checked { background-position: 2px center; }
+:root .inforSoHoXi input[type="checkbox"]:dir(rtl):not(.dijitCheckBoxInput):not(.slx-keep-checkbox):indeterminate { background-position: center; }
+@media (forced-colors: active) {
+  :root .inforSoHoXi .dijitCheckBox:not(.dijitRadio) { border-color: ButtonText; background: Canvas !important; }
+  :root .inforSoHoXi .dijitCheckBox:not(.dijitRadio)::after { background: ButtonText; forced-color-adjust: none; }
+  :root .inforSoHoXi .dijitCheckBoxChecked:not(.dijitRadio) { border-color: Highlight; }
+  :root .inforSoHoXi input[type="checkbox"]:not(.dijitCheckBoxInput):not(.slx-keep-checkbox) { appearance: auto; background: none; }
+}
+
+
+/* SlxBase: appearance overrides */
+
+/* Keep the legacy desktop measurements and widget positioning intact. */
+:root body.inforSoHoXi {
+  font-family: var(--modern-font);
+  color: var(--modern-text);
+  background-color: var(--modern-surface-alt);
+}
+:root .inforSoHoXi a { text-underline-offset: 3px; }
+
+
+/* quickform: appearance overrides */
+
+:root .inforSoHoXi .textcontrol,
+:root .inforSoHoXi .twocoltextcontrol,
+:root .inforSoHoXi .duration > div[slxcompositecontrol] :is(input, select) {
+  border-radius: var(--modern-radius);
+}
+:root .inforSoHoXi .textcontrol:focus-within {
+  outline: 2px solid var(--modern-accent);
+  outline-offset: 1px;
+}
+
+
+/* sage-controls: appearance overrides */
+
+:root .inforSoHoXi .picklist-multiple .picklist-inner-container {
+  color: var(--modern-text);
+  background: var(--modern-surface);
+  border: 1px solid var(--modern-border);
+  border-radius: var(--modern-radius);
+  box-shadow: var(--modern-shadow);
+}
+
+
+/* layout: appearance overrides */
+
+/* App-bar typography: set text on the menu items, not the bar itself.
+   Its inherited em-based height remains intact, as do Font Awesome icons. */
+:root .inforSoHoXi #ToolBar > .dijitMenuItem {
+  font-family: var(--modern-font);
+  font-size: 13px;
+  font-weight: 400;
+  font-style: normal;
+  line-height: inherit;
+  padding: 0 10px;
+  color: var(--slx-tab-color);
+  text-shadow: none;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+:root .inforSoHoXi #ToolBar > .dijitMenuItem .dijitMenuItemLabel {
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  font-style: normal;
+  line-height: inherit;
+  color: inherit;
+}
+/* Keep search text and its placeholder at the same scale as menu labels. */
+:root .inforSoHoXi #MainHeader .quick-speedsearch .dijitInputInner,
+:root .inforSoHoXi #MainHeader .quick-speedsearch .dijitPlaceHolder {
+  font-family: var(--modern-font);
+  font-size: 13px;
+  font-weight: 400;
+  font-style: normal;
+  text-shadow: none;
+}
+:root .inforSoHoXi #MainHeader .quick-speedsearch .dijitPlaceHolder {
+  color: var(--modern-muted);
+  opacity: 1;
+}
+
+/* App-bar search and help: remove legacy inversion, size, and baseline offsets. */
+:root .inforSoHoXi #MainHeader .quick-speedsearch-button {
+  margin: 0;
+  height: 32px;
+  line-height: 32px;
+  vertical-align: top;
+}
+:root .inforSoHoXi #MainHeader .quick-speedsearch-button > .dijitButtonNode {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  min-width: 32px;
+  height: 32px;
+  padding: 0 !important;
+  border: 0;
+  border-radius: 0 4px 4px 0;
+  background: var(--modern-surface);
+  color: var(--modern-text);
+  box-shadow: none;
+  line-height: 1;
+  vertical-align: top;
+}
+:root .inforSoHoXi #MainHeader .quick-speedsearch-button .dijitButtonContents {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  line-height: 1;
+}
+:root .inforSoHoXi #MainHeader .quick-speedsearch-button .dijitIcon,
+:root .inforSoHoXi #MainHeader .quick-speedsearch-button div.fa {
+  margin: 0;
+  color: var(--modern-text);
+  font-size: 16px;
+  line-height: 16px;
+  vertical-align: middle;
+  filter: none !important;
+}
+:root .inforSoHoXi #MainHeader .quick-speedsearch-button .dijitButtonText:empty {
+  display: none;
+}
+:root .inforSoHoXi #MainHeader .quick-speedsearch-button.dijitButtonHover > .dijitButtonNode {
+  background: var(--modern-hover);
+}
+:root .inforSoHoXi #MainHeader .quick-speedsearch-button.dijitButtonActive > .dijitButtonNode {
+  background: var(--modern-selected);
+}
+:root .inforSoHoXi #HelpMenu > .dijitMenuItem {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  margin: 0 0 0 4px;
+  padding: 0;
+  border: 0;
+  border-radius: 4px;
+  line-height: 1;
+  color: var(--slx-tab-color);
+}
+:root .inforSoHoXi #HelpMenu > .dijitMenuItem > span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+:root .inforSoHoXi #HelpMenu > .dijitMenuItem > span > .dijitIcon {
+  margin: 0;
+  color: var(--slx-tab-color);
+  font-size: 16px;
+  line-height: 16px;
+  vertical-align: middle;
+  filter: none;
+}
+:root .inforSoHoXi #HelpMenu > .dijitMenuItemHover,
+:root .inforSoHoXi #HelpMenu > .dijitMenuItemSelected {
+  background: var(--slx-header-color);
+}
+
+/* Match the main toolbar surface; distinguish expansion from the current page. */
+:root .inforSoHoXi #mainnavContainer {
+  --modern-nav-hover: rgba(255, 255, 255, 0.12);
+  background: var(--slx-subheader-color);
+  color: var(--slx-tab-color);
+  font-family: var(--modern-font);
+  box-shadow: var(--modern-shadow-raised);
+}
+:root .inforSoHoXi #mainnavContainer.show,
+:root .inforSoHoXi #mainnavContainer.showSolid {
+  opacity: 1 !important;
+}
+:root .inforSoHoXi #MainNav,
+:root .inforSoHoXi #MainNav .nav-bar-pane,
+:root .inforSoHoXi #MainNav .dijitAccordionContainer {
+  background: var(--slx-subheader-color);
+  color: var(--slx-tab-color);
+  font-family: var(--modern-font);
+  box-shadow: none;
+}
+:root .inforSoHoXi #navLogo {
+  background: var(--slx-subheader-color);
+  color: var(--slx-tab-color);
+  box-shadow: inset 0 -1px var(--modern-border);
+}
+:root .inforSoHoXi #navLogo .inforUpperLeftLogo,
+:root .inforSoHoXi #navPinID {
+  filter: brightness(0) invert(1);
+}
+/* Explicit title height lets Sage's accordion measure its available space. */
+:root .inforSoHoXi #MainNav .dijitAccordionInnerContainer {
+  padding: 0;
+  margin: 0 0 2px;
+  border: 0;
+  background: transparent;
+}
+:root .inforSoHoXi #MainNav .dijitAccordionTitle {
+  box-sizing: border-box;
+  height: 32px;
+  margin: 0 8px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: var(--modern-radius);
+  background: transparent;
+  color: var(--slx-tab-color);
+  font-family: var(--modern-font);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 32px;
+  text-shadow: none;
+  box-shadow: none;
+  transition: background-color var(--modern-motion);
+}
+:root .inforSoHoXi #MainNav .dijitAccordionText {
+  padding: 0;
+  color: inherit;
+  font: inherit;
+}
+:root .inforSoHoXi #MainNav .dijitAccordionInnerContainerSelected .dijitAccordionTitle {
+  background: transparent;
+  color: var(--slx-tab-color);
+  box-shadow: inset 0 -1px var(--modern-nav-hover);
+}
+:root .inforSoHoXi #MainNav .dijitAccordionTitle:hover {
+  background: var(--modern-nav-hover);
+}
+:root .inforSoHoXi #MainNav .nav-bar-pane > ul {
+  padding: 4px 0;
+}
+:root .inforSoHoXi #MainNav .nav-bar-item > a,
+:root .inforSoHoXi #MainNav .nav-bar-item-current-page > a {
+  position: relative;
+  display: block;
+  box-sizing: border-box;
+  margin: 2px 8px;
+  padding: 6px 12px;
+  border-radius: var(--modern-radius);
+  background: transparent;
+  color: var(--slx-tab-color);
+  font-family: var(--modern-font);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 20px;
+  text-decoration: none;
+  transition: background-color var(--modern-motion);
+}
+:root .inforSoHoXi #MainNav .nav-bar-item > a:hover,
+:root .inforSoHoXi #MainNav .nav-bar-item-current-page > a:hover {
+  background: var(--modern-nav-hover);
+  color: var(--slx-tab-color);
+}
+:root .inforSoHoXi #MainNav .nav-bar-item:hover,
+:root .inforSoHoXi #MainNav .nav-bar-item-current-page,
+:root .inforSoHoXi #MainNav .nav-bar-item-current-page:hover {
+  background: transparent;
+}
+:root .inforSoHoXi #MainNav .nav-bar-item-current-page > a,
+:root .inforSoHoXi #MainNav .nav-bar-item-current-page > a:hover {
+  background: var(--slx-header-color);
+  color: var(--slx-tab-color);
+  font-weight: 600;
+}
+:root .inforSoHoXi #MainNav .nav-bar-item-current-page > a::before {
+  background: var(--slx-tab-color);
+  width: 3px;
+  height: calc(100% - 12px);
+  top: 6px;
+  left: auto;
+  inset-inline-start: 0;
+  border-radius: 3px;
+}
+:root .inforSoHoXi #MainNav .nav-bar-item > a > span,
+:root .inforSoHoXi #MainNav .nav-bar-item-current-page > a > span {
+  color: inherit;
+  font: inherit;
+  padding: 0;
+}
+:root .inforSoHoXi #MainNav .dijitAccordionTitle:focus-within {
+  outline: 2px solid var(--slx-tab-color) !important;
+  outline-offset: -2px;
+}
+
+
+/* Keyboard focus stays visible against the colored navigation surface. */
+:root .inforSoHoXi #MainNav :is(a, [tabindex]):focus-visible {
+  outline: 2px solid var(--slx-tab-color) !important;
+  outline-offset: -2px;
+}
+@supports (background: color-mix(in srgb, red, blue)) {
+  :root .inforSoHoXi #mainnavContainer {
+    --modern-nav-hover: color-mix(in srgb, var(--slx-tab-color) 12%, var(--slx-subheader-color));
+  }
+}
+
+/* theme: appearance overrides */
+
+/* Surface styling, without changing Dojo's measured layout or grid row heights. */
+:root .inforSoHoXi .dijitDialog,
+:root .inforSoHoXi .dijitMenu,
+:root .inforSoHoXi .dijitTooltipContainer {
+  background: var(--modern-surface);
+  color: var(--modern-text);
+  border: 1px solid var(--modern-border);
+  border-radius: var(--modern-radius-lg);
+  box-shadow: var(--modern-shadow-raised);
+}
+:root .inforSoHoXi .dijitDialogTitleBar,
+:root .inforSoHoXi .dijitTitlePaneTitle,
+:root .inforSoHoXi .dijitAccordionTitle,
+:root .inforSoHoXi .dijitToolbar {
+  background: var(--modern-surface-alt);
+  color: var(--modern-text);
+  border-color: var(--modern-border);
+  text-shadow: none;
+}
+:root .inforSoHoXi .dijitDialogTitleBar {
+  border-radius: var(--modern-radius-lg) var(--modern-radius-lg) 0 0;
+}
+:root .inforSoHoXi .dijitTitlePaneTitle .dijitTitlePaneTextNode,
+:root .inforSoHoXi .dijitAccordionTitle .dijitAccordionText,
+:root .inforSoHoXi .dijitDialogTitleBar .dijitDialogTitle {
+  color: var(--modern-text);
+}
+:root .inforSoHoXi .dijitDialogPaneContent,
+:root .inforSoHoXi .dijitTitlePaneContentInner,
+:root .inforSoHoXi .dijitTabPaneWrapper {
+  background: var(--modern-surface);
+  color: var(--modern-text);
+  border-color: var(--modern-border);
+}
+:root .inforSoHoXi .dijitButton .dijitButtonNode,
+:root .inforSoHoXi .dijitDropDownButton .dijitButtonNode,
+:root .inforSoHoXi .dijitComboButton .dijitButtonNode,
+:root .inforSoHoXi .slxbutton {
+  background: var(--modern-action);
+  color: var(--modern-on-accent);
+  border: 1px solid transparent;
+  border-radius: var(--modern-radius);
+  box-shadow: var(--modern-shadow);
+  text-shadow: none;
+  font-family: var(--modern-font);
+  font-weight: 600;
+  transition: box-shadow var(--modern-motion), background-color var(--modern-motion);
+}
+:root .inforSoHoXi .dijitButtonHover .dijitButtonNode,
+:root .inforSoHoXi .dijitDropDownButtonHover .dijitButtonNode,
+:root .inforSoHoXi .slxbutton:not(:disabled):not(.disabled):hover {
+  background: var(--slx-subheader-color);
+  box-shadow: var(--modern-shadow-raised);
+}
+:root .inforSoHoXi :is(.dijitButtonDisabled, .dijitDropDownButtonDisabled, .dijitComboButtonDisabled) .dijitButtonNode {
+  background: var(--modern-surface-alt);
+  color: var(--modern-muted);
+  box-shadow: none;
+  cursor: not-allowed;
+}
+:root .inforSoHoXi .dijitTextBox,
+:root .inforSoHoXi .dijitSelect {
+  background-color: var(--input-color-initial-background);
+  color: var(--modern-text);
+  border-color: var(--input-color-initial-border);
+  border-radius: var(--modern-radius);
+  box-shadow: none;
+}
+:root .inforSoHoXi .dijitTextBoxFocused,
+:root .inforSoHoXi .dijitSelectFocused {
+  outline: 2px solid var(--modern-accent);
+  outline-offset: 1px;
+}
+:root .inforSoHoXi .dijitTextBoxError { border-color: var(--ids-color-status-danger); }
+:root .inforSoHoXi .dijitTextBoxDisabled {
+  background-color: var(--modern-surface-alt);
+  color: var(--modern-muted);
+}
+:root .inforSoHoXi .dijitTabContainerTop-tabs .dijitTab,
+:root .inforSoHoXi .dijitTabContainerBottom-tabs .dijitTab,
+:root .inforSoHoXi .dijitTabContainerLeft-tabs .dijitTab,
+:root .inforSoHoXi .dijitTabContainerRight-tabs .dijitTab {
+  background: var(--modern-surface);
+  color: var(--modern-text);
+  border-color: transparent;
+  border-radius: var(--modern-radius) var(--modern-radius) 0 0;
+  text-shadow: none;
+  box-shadow: none;
+}
+:root .inforSoHoXi .dijitTab .tabLabel { color: inherit; }
+/* Legacy active tabs declare both of these properties !important. */
+:root .inforSoHoXi .dijitTabChecked,
+:root .inforSoHoXi .dijitTabActive {
+  color: var(--modern-text) !important;
+  border-radius: var(--modern-radius) var(--modern-radius) 0 0 !important;
+}
+:root .inforSoHoXi :is(.dijitTabContainerTop-tabs, .dijitTabContainerBottom-tabs, .dijitTabContainerLeft-tabs, .dijitTabContainerRight-tabs) .dijitTabHover {
+  background: var(--modern-hover);
+}
+:root .inforSoHoXi :is(.dijitTabContainerTop-tabs, .dijitTabContainerBottom-tabs, .dijitTabContainerLeft-tabs, .dijitTabContainerRight-tabs) .dijitTabChecked {
+  background: var(--modern-selected);
+  color: var(--modern-text);
+  box-shadow: inset 0 -3px var(--modern-accent);
+  font-weight: 600;
+}
+:root .inforSoHoXi .dijitTabContainerLeft-tabs .dijitTabChecked { box-shadow: inset 3px 0 var(--modern-accent); }
+:root .inforSoHoXi .dijitTabContainerRight-tabs .dijitTabChecked { box-shadow: inset -3px 0 var(--modern-accent); }
+:root .inforSoHoXi .dijitTabContainerBottom-tabs .dijitTabChecked { box-shadow: inset 0 3px var(--modern-accent); }
+:root .inforSoHoXi .dijitTabDisabled { opacity: var(--ids-number-opacity-disabled); }
+:root .inforSoHoXi .dojoxGrid,
+:root .inforSoHoXi .dgrid {
+  border: 1px solid var(--modern-border);
+  background: var(--modern-surface);
+  color: var(--modern-text);
+}
+:root .inforSoHoXi .dojoxGridHeader .dojoxGridCell,
+:root .inforSoHoXi .dgrid-header .dgrid-cell {
+  background: var(--modern-surface-alt);
+  color: var(--modern-text);
+  border-color: var(--modern-border);
+  font-weight: 600;
+  text-shadow: none;
+}
+:root .inforSoHoXi .dgrid-header :is(.field-ALARM, .field-A2_ALARM) img,
+:root .inforSoHoXi .dgrid-header :is(.field-ATTACHMENT, .field-RECURRING, .field-A2_CONFIRMED) .icon16x16,
+:root .inforSoHoXi .dijitDialogTitleBar .dijitDialogCloseIcon,
+:root .inforSoHoXi .dijitDialogTitleBar .Global_Images {
+  filter: var(--slx-filter-icons);
+}
+:root .inforSoHoXi .dojoxGridRowTable tr,
+:root .inforSoHoXi .dgrid-row {
+  background: var(--modern-surface);
+  color: var(--modern-text);
+}
+:root .inforSoHoXi .dojoxGridCell,
+:root .inforSoHoXi .dgrid-cell { border-bottom: 1px solid var(--modern-border); }
+:root .inforSoHoXi .dojoxGridRowOver .dojoxGridCell,
+:root .inforSoHoXi .dgrid-row:hover .dgrid-cell { background: var(--modern-hover); }
+:root .inforSoHoXi .dojoxGridRowSelected .dojoxGridCell,
+:root .inforSoHoXi .dgrid-selected .dgrid-cell {
+  background: var(--modern-selected);
+  color: var(--modern-text);
+  box-shadow: none;
+}
+:root .inforSoHoXi .dijitMenuItemHover,
+:root .inforSoHoXi .dijitMenuItemSelected {
+  background: var(--modern-selected);
+  color: var(--modern-text);
+}
+/* Restore keyboard cues suppressed by legacy widget styles. */
+:root .inforSoHoXi :is(a, button, input, select, textarea, [tabindex]):focus-visible,
+:root .inforSoHoXi :is(.dijitButtonFocused, .dijitDropDownButtonFocused, .dijitComboButtonFocused, .dijitToggleButtonFocused) > .dijitButtonNode,
+:root .inforSoHoXi .dojoxGridCellFocus:focus-visible,
+:root .inforSoHoXi .dgrid-focus:focus-visible {
+  outline: 2px solid var(--modern-accent) !important;
+  outline-offset: -2px;
+}
+
+/* Group list: dgrid renders a separate table inside each row wrapper.
+   Paint the wrapper once; keep one separator on that table. No state changes
+   to row padding, positioning, height, or column sizing. */
+:root .inforSoHoXi :is(#listGrid, .abstractGrid .dgrid) .dgrid-row {
+  background: var(--modern-surface) !important;
+  color: var(--modern-text);
+  border: 0 !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+:root .inforSoHoXi :is(#listGrid, .abstractGrid .dgrid) .dgrid-row:hover {
+  background: var(--modern-hover) !important;
+}
+:root .inforSoHoXi :is(#listGrid, .abstractGrid .dgrid) .dgrid-row.dgrid-selected,
+:root .inforSoHoXi :is(#listGrid, .abstractGrid .dgrid) .dgrid-row.dgrid-selected:hover {
+  background: var(--modern-selected) !important;
+}
+:root .inforSoHoXi :is(#listGrid, .abstractGrid .dgrid) .dgrid-row .dgrid-row-table {
+  /* A percentage height cannot fill a wrapper with only min-height.
+     Match its theme minimum so selection, separator, and cells align. */
+  height: var(--slx-datagrid-row-height);
+  border: 0 !important;
+  border-bottom: 1px solid var(--modern-grid-line) !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+:root .inforSoHoXi :is(#listGrid, .abstractGrid .dgrid) .dgrid-row .dgrid-row-table tr,
+:root .inforSoHoXi :is(#listGrid, .abstractGrid .dgrid) .dgrid-row .dgrid-cell {
+  background: transparent !important;
+  color: var(--modern-text);
+  border: 0 !important;
+  box-shadow: none !important;
+}
+/* Match the header type scale and inset, with a quieter weight for data.
+   Apply to every row so selection never changes text metrics or alignment. */
+:root .inforSoHoXi :is(#listGrid, .abstractGrid .dgrid) .dgrid-row .dgrid-cell {
+  font-family: var(--modern-font);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 20px;
+  padding: 3px 8px;
+  vertical-align: middle;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+:root .inforSoHoXi :is(#listGrid, .abstractGrid .dgrid) .dgrid-selected .dgrid-cell:first-child {
+  box-shadow: inset 3px 0 var(--modern-accent) !important;
+}
+:root .inforSoHoXi :is(#listGrid, .abstractGrid .dgrid):dir(rtl) .dgrid-selected .dgrid-cell:first-child {
+  box-shadow: inset -3px 0 var(--modern-accent) !important;
+}
+/* Group-list header: compact labels, quiet separators, unchanged column sizing. */
+:root .inforSoHoXi :is(#listGrid, .abstractGrid .dgrid) .dgrid-header,
+:root .inforSoHoXi :is(#listGrid, .abstractGrid .dgrid) .dgrid-header-scroll {
+  background: var(--modern-surface-alt);
+}
+:root .inforSoHoXi :is(#listGrid, .abstractGrid .dgrid) .dgrid-header .dgrid-cell {
+  background: var(--modern-surface-alt);
+  color: var(--modern-text);
+  font-family: var(--modern-font);
+  font-size: 13px;
+  font-weight: 600;
+  height: var(--slx-datagrid-header-height);
+  line-height: 20px;
+  vertical-align: middle;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  border-color: var(--modern-grid-line);
+  box-shadow: inset 0 -1px var(--modern-grid-line);
+  text-shadow: none;
+}
+/* The resize handle is a sibling: clip labels, never the handle itself. */
+:root .inforSoHoXi :is(#listGrid, .abstractGrid .dgrid) .dgrid-header .dgrid-resize-header-container {
+  box-sizing: border-box;
+  padding: 0 8px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  line-height: 20px;
+}
+:root .inforSoHoXi :is(#listGrid, .abstractGrid .dgrid) .dgrid-header .dgrid-sortable:hover {
+  background: var(--modern-hover);
+}
+:root .inforSoHoXi :is(#listGrid, .abstractGrid .dgrid) .dgrid-header .dgrid-sort-up,
+:root .inforSoHoXi :is(#listGrid, .abstractGrid .dgrid) .dgrid-header .dgrid-sort-down {
+  background: var(--modern-selected);
+}
+
+:root .inforSoHoXi :is(#listGrid, .abstractGrid .dgrid) .dgrid-row .dgrid-cell :is(a[href], .activity-type-link),
+:root .inforSoHoXi :is(#listGrid, .abstractGrid .dgrid) .dgrid-row .dgrid-cell :is(a[href], .activity-type-link):visited {
+  color: var(--modern-grid-link) !important;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  font-weight: 400 !important;
+  text-decoration: none !important;
+  text-shadow: none;
+}
+:root .inforSoHoXi :is(#listGrid, .abstractGrid .dgrid) .dgrid-row .dgrid-cell :is(a[href], .activity-type-link):hover,
+:root .inforSoHoXi :is(#listGrid, .abstractGrid .dgrid) .dgrid-row .dgrid-cell :is(a[href], .activity-type-link):focus-visible {
+  text-decoration: underline !important;
+  text-underline-offset: 3px;
+}
+/* Selection is not keyboard focus. Show a cue only for keyboard navigation. */
+:root .inforSoHoXi :is(#listGrid, .abstractGrid .dgrid) .dgrid-row:focus-visible,
+:root .inforSoHoXi :is(#listGrid, .abstractGrid .dgrid) .dgrid-cell:focus-visible,
+:root .inforSoHoXi :is(#listGrid, .abstractGrid .dgrid) .dgrid-cell :is(a[href], .activity-type-link):focus-visible {
+  outline: 1px dashed var(--modern-text) !important;
+  outline-offset: -2px;
+}
+
+/* Entity header uses the same foreground token as the group tabs. */
+:root .inforSoHoXi #titlePane #PageTitleText,
+:root .inforSoHoXi #titlePane .group-menu-bar > .group-menu-button,
+:root .inforSoHoXi #GroupLookupButton .dijitIcon,
+:root .inforSoHoXi #addGroupButton .dijitIcon {
+  color: var(--slx-tab-color);
+}
+
+/* Sage's header uses nowrapTabStrip, not just the stock Top-tabs container.
+   Keep the existing 33px slot and Dojo's wrapper widths/scroll positioning. */
+:root .inforSoHoXi #GroupTabs {
+  background: var(--slx-header-color);
+  border-radius: 0;
+}
+:root .inforSoHoXi #GroupTabs .dijitTabListWrapper {
+  background: var(--slx-header-color);
+}
+:root .inforSoHoXi #GroupTabs .nowrapTabStrip,
+:root .inforSoHoXi #GroupTabs .dijitTabContainerTop-tabs {
+  padding: 2px 4px 3px;
+  border: 0;
+  background: transparent;
+}
+:root .inforSoHoXi #GroupTabs .dijitTab {
+  box-sizing: border-box;
+  height: 28px;
+  margin: 0 4px 0 0;
+  padding: 4px 12px !important;
+  border: 0 !important;
+  border-radius: 5px 5px 0 0 !important;
+  background: transparent !important;
+  color: var(--slx-tab-color) !important;
+  box-shadow: none;
+  font-family: var(--modern-font);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 20px;
+  text-shadow: none;
+  white-space: nowrap;
+  transition: background-color var(--modern-motion);
+}
+:root .inforSoHoXi #GroupTabs .dijitTabInnerDiv:not(.dijitTab),
+:root .inforSoHoXi #GroupTabs .dijitTabContent:not(.dijitTab),
+:root .inforSoHoXi #GroupTabs .tabLabel {
+  padding: 0;
+  border: 0;
+  background: transparent !important;
+  color: var(--slx-tab-color) !important;
+  font: inherit;
+  text-decoration: none;
+}
+:root .inforSoHoXi #GroupTabs .dijitTabHover,
+:root .inforSoHoXi #GroupTabs .dijitTab:not(.dijitTabDisabled):hover {
+  background: var(--slx-subheader-color) !important;
+}
+:root .inforSoHoXi #GroupTabs .dijitTabChecked,
+:root .inforSoHoXi #GroupTabs .dijitTabChecked:hover {
+  background: var(--slx-subheader-color) !important;
+  box-shadow: inset 0 -3px var(--slx-tab-color);
+  /* Same text weight in all states so selection doesn't change tab widths. */
+  font-weight: 400;
+}
+:root .inforSoHoXi #GroupTabs .tabStripButton,
+:root .inforSoHoXi #GroupTabs_tablist_leftBtn,
+:root .inforSoHoXi #GroupTabs_tablist_rightBtn {
+  box-sizing: border-box;
+  width: 28px;
+  height: 28px !important;
+  min-width: 28px;
+  margin: 2px 0 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 4px !important;
+  background: var(--slx-header-color) !important;
+  color: var(--slx-tab-color) !important;
+  box-shadow: none !important;
+  text-align: center;
+  line-height: 28px;
+}
+:root .inforSoHoXi #GroupTabs .dijitTabStripIcon,
+:root .inforSoHoXi #GroupTabs .tabStripButton .dijitButtonNode,
+:root .inforSoHoXi #GroupTabs .tabStripButton .fa {
+  background-color: transparent;
+  color: var(--slx-tab-color) !important;
+  box-shadow: none;
+}
+:root .inforSoHoXi #GroupTabs_tablist_leftBtn:hover,
+:root .inforSoHoXi #GroupTabs_tablist_rightBtn:hover,
+:root .inforSoHoXi #GroupTabs .tabStripButtonHover {
+  background: var(--slx-subheader-color) !important;
+}
+/* Both arrows use the same drawn chevron, regardless of FA/sprite variants.
+   Leave display and position on the buttons to Dojo's overflow controller. */
+:root .inforSoHoXi #GroupTabs_tablist_leftBtn .dijitTabStripIcon,
+:root .inforSoHoXi #GroupTabs_tablist_rightBtn .dijitTabStripIcon {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  background: none !important;
+  vertical-align: middle;
+  line-height: 16px;
+  font-size: 0;
+}
+:root .inforSoHoXi #GroupTabs_tablist_leftBtn .dijitTabStripIcon::before,
+:root .inforSoHoXi #GroupTabs_tablist_rightBtn .dijitTabStripIcon::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border: solid currentColor;
+  border-width: 0 2px 2px 0;
+  vertical-align: top;
+  margin-top: 3px;
+  transform: rotate(-45deg);
+}
+:root .inforSoHoXi #GroupTabs_tablist_leftBtn .dijitTabStripIcon::before { transform: rotate(135deg); }
+:root .inforSoHoXi #GroupTabs .tabStripButtonDisabled {
+  background: var(--slx-header-color) !important;
+  opacity: 0.45;
+  cursor: default;
+}
+:root .inforSoHoXi #GroupTabs .tabStripButton:focus-visible,
+:root .inforSoHoXi #GroupTabs .tabLabel:focus-visible {
+  outline: 2px solid var(--slx-tab-color) !important;
+  outline-offset: -2px;
+}
+
+
+/* Entity group list actions: retain the 26px toolbar slot used by Dojo.
+   Tertiary colors keep utility actions legible on the neutral toolbar. */
+:root .inforSoHoXi #list_toolbar {
+  box-sizing: border-box;
+  height: 26px;
+  padding: 0 4px;
+  line-height: 26px;
+  background: var(--modern-surface-alt);
+  color: var(--modern-text);
+}
+/* Record count is supporting text. Toolbar padding (4px) plus this inset
+   (4px) aligns it with the grid's 8px cell padding. */
+:root .inforSoHoXi #list_toolbar > .list-panel-left-tools:first-child {
+  box-sizing: border-box;
+  height: 26px;
+  margin: 0;
+  padding: 0 4px;
+  font-family: var(--modern-font);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 26px;
+  color: var(--modern-muted);
+  vertical-align: top;
+}
+:root .inforSoHoXi #list_toolbar > .list-panel-left-tools:first-child > .dijitInline {
+  margin: 0;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  vertical-align: top;
+}
+
+:root .inforSoHoXi #list_toolbar > .dijitButton {
+  margin: 0 2px;
+  height: 26px;
+  line-height: 26px;
+  vertical-align: top;
+}
+:root .inforSoHoXi #list_toolbar > .dijitButton > .dijitButtonNode {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 26px;
+  min-width: 28px;
+  padding: 0 6px;
+  border: 0;
+  border-radius: 4px;
+  background: var(--button-color-tertiary-initial-background);
+  color: var(--button-color-tertiary-initial-font);
+  box-shadow: none;
+  line-height: 1;
+  vertical-align: top;
+}
+:root .inforSoHoXi #list_toolbar .dijitButtonContents {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: inherit;
+  line-height: 1;
+}
+:root .inforSoHoXi #list_toolbar .dijitIcon {
+  color: inherit;
+  line-height: 1;
+  vertical-align: middle;
+}
+:root .inforSoHoXi #list_toolbar .dijitIcon div {
+  margin-top: 0;
+}
+:root .inforSoHoXi #list_toolbar .imageButtonNode .dijitButtonText:empty {
+  display: none;
+}
+:root .inforSoHoXi #list_toolbar .dijitIcon > img,
+:root .inforSoHoXi #list_toolbar .dijitIcon > .Global_Images {
+  filter: var(--slx-filter-icons);
+}
+:root .inforSoHoXi #list_toolbar > .dijitButtonHover > .dijitButtonNode {
+  background: var(--modern-hover);
+  color: var(--button-color-tertiary-hover-font);
+}
+:root .inforSoHoXi #list_toolbar > .dijitButtonActive > .dijitButtonNode {
+  background: var(--modern-selected);
+  color: var(--button-color-tertiary-active-font);
+}
+:root .inforSoHoXi #list_toolbar > .dijitButtonDisabled > .dijitButtonNode {
+  background: var(--button-color-tertiary-initial-background);
+  color: var(--button-color-tertiary-disabled-font);
+  box-shadow: none;
+}
+
+/* Filters and Common Tasks share the grid's type scale and theme surfaces. */
+:root .inforSoHoXi #TaskPane {
+  font-family: var(--modern-font);
+  font-size: 13px;
+  line-height: 20px;
+  color: var(--modern-text);
+  background: var(--modern-surface);
+}
+:root .inforSoHoXi #TaskPane .task-pane-item > .dijitTitlePaneTitle {
+  padding: 3px 8px;
+  background: var(--modern-surface-alt);
+  color: var(--modern-text);
+  border: 0;
+  box-shadow: inset 0 -1px var(--modern-border);
+  font-family: var(--modern-font);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 26px;
+  text-shadow: none;
+}
+:root .inforSoHoXi #TaskPane .dijitTitlePaneTextNode {
+  font: inherit;
+  color: inherit;
+}
+:root .inforSoHoXi #TaskPane .filter-panel,
+:root .inforSoHoXi #TaskPane .task-pane-item-common-tasklist {
+  font-family: var(--modern-font);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 20px;
+  color: var(--modern-text);
+}
+:root .inforSoHoXi #TaskPane .filter-edit {
+  padding: 6px 0;
+  font-size: 12px;
+  line-height: 20px;
+}
+:root .inforSoHoXi #TaskPane .filter-summary {
+  padding: 6px 0;
+  margin-bottom: 4px;
+  border-color: var(--modern-border);
+  color: var(--modern-muted);
+}
+:root .inforSoHoXi #TaskPane .filter-type-checkbox > h3 {
+  position: relative;
+  margin: 2px 0;
+  padding: 4px 6px 4px 20px;
+  border-radius: 4px;
+  background: none;
+  color: var(--modern-text);
+  font-family: var(--modern-font);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 20px;
+  cursor: pointer;
+}
+:root .inforSoHoXi #TaskPane .filter-type-checkbox > h3::before {
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: 9px;
+  width: 5px;
+  height: 5px;
+  border: solid currentColor;
+  border-width: 0 1.5px 1.5px 0;
+  transform: rotate(45deg);
+}
+:root .inforSoHoXi #TaskPane .filter-collapsed > h3::before {
+  top: 11px;
+  transform: rotate(-45deg);
+}
+:root .inforSoHoXi #TaskPane .filter-type-checkbox > h3:hover,
+:root .inforSoHoXi #TaskPane .filter-list > li:hover {
+  background-color: var(--modern-hover);
+}
+:root .inforSoHoXi #TaskPane .filter-list {
+  margin: 4px 0 8px;
+}
+:root .inforSoHoXi #TaskPane .filter-list > li {
+  padding: 3px 6px 3px 20px;
+  border-radius: 4px;
+  font-size: 13px;
+  line-height: 20px;
+}
+:root .inforSoHoXi #TaskPane .filter-list > li.filter-selected {
+  background: var(--modern-selected);
+}
+:root .inforSoHoXi #TaskPane .filter-list :is(.p-count, .p-total, .p-spacer) {
+  color: var(--modern-muted);
+  font-size: 12px;
+}
+:root .inforSoHoXi #TaskPane .filter-list > li > div > .p-selection {
+  box-sizing: border-box;
+  position: relative;
+  width: 13px;
+  height: 13px;
+  margin-inline-end: 5px;
+  border: 1px solid var(--modern-muted);
+  border-radius: 3px;
+  background: var(--modern-surface);
+  vertical-align: -2px;
+}
+:root .inforSoHoXi #TaskPane .filter-list > .filter-selected > div > .p-selection {
+  border-color: var(--modern-action);
+  background: var(--modern-action);
+}
+:root .inforSoHoXi #TaskPane .filter-list > .filter-selected > div > .p-selection::after {
+  content: "";
+  position: absolute;
+  left: 3px;
+  top: 1px;
+  width: 3px;
+  height: 6px;
+  border: solid var(--modern-on-accent);
+  border-width: 0 1.5px 1.5px 0;
+  transform: rotate(45deg);
+}
+:root .inforSoHoXi #TaskPane :is(.filter-panel, .task-pane-item-common-tasklist) :is(a, .activity-type-link),
+:root .inforSoHoXi #TaskPane .task-pane-item-common-clearselection {
+  color: var(--modern-grid-link);
+  font-family: var(--modern-font);
+  font-size: 13px;
+  font-weight: 400;
+  text-decoration: none;
+  text-shadow: none;
+}
+:root .inforSoHoXi #TaskPane :is(.filter-panel, .task-pane-item-common-tasklist) :is(a, .activity-type-link):hover,
+:root .inforSoHoXi #TaskPane .task-pane-item-common-clearselection:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+:root .inforSoHoXi #TaskPane .task-pane-item-common-tasklist {
+  padding: 4px 0;
+}
+:root .inforSoHoXi #TaskPane .task-pane-item-common-tasklist :is(a, .activity-type-link) {
+  display: inline-block;
+  padding: 3px 0;
+  line-height: 20px;
+}
+:root .inforSoHoXi #TaskPane .task-pane-item-common-selectioncount {
+  font-size: 13px;
+  line-height: 20px;
+  color: var(--modern-muted);
+}
+:root .inforSoHoXi #TaskPane hr {
+  height: 0;
+  margin: 8px 0;
+  border: 0;
+  border-top: 1px solid var(--modern-border);
+}
+
+
+/* QuickForms: caption/value hierarchy without changing the generated grid. */
+:root .inforSoHoXi .qf-grid-form {
+  --qf-label-color: var(--modern-muted);
+  --qf-value-color: var(--modern-text);
+  --qf-label-size: 12px;
+  --qf-value-size: 13px;
+  font-family: var(--modern-font);
+  font-size: 13px;
+  color: var(--modern-text);
+}
+:root .inforSoHoXi .qf-grid-form .qf-grid-cell > :is(.lbl, .twocollbl, .slxlabel:not(.checkbox)),
+:root .inforSoHoXi .qf-grid-form .qf-grid-cell > :is(.lbl, .twocollbl, .slxlabel:not(.checkbox)) > label {
+  font-family: var(--modern-font);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 18px;
+  color: var(--modern-muted);
+  text-shadow: none;
+}
+/* Insets paint inside the existing boxes, preserving composite-control sizing. */
+:root .inforSoHoXi .qf-grid-form :is(.textcontrol, .twocoltextcontrol, .threecoltextcontrol):not(:empty) {
+  background-color: var(--input-color-initial-background);
+  border-radius: 6px;
+  box-shadow: inset 0 0 0 1px var(--input-color-initial-border);
+  font-family: var(--modern-font);
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--modern-text);
+}
+:root .inforSoHoXi .qf-grid-form :is(.textcontrol, .twocoltextcontrol, .threecoltextcontrol) :is(input:not([type="button"]):not([type="submit"]):not(.dijitArrowButtonInner):not(.dijitValidationIcon), textarea, select, .dijitInputField, .dijitSelectLabel, .lbl) {
+  font-family: var(--modern-font);
+  font-size: 13px;
+  font-weight: 400;
+  font-style: normal;
+  text-shadow: none;
+}
+:root .inforSoHoXi .qf-grid-form :is(.textcontrol, .twocoltextcontrol, .threecoltextcontrol) :is(.dijitTextBox, .dijitSelect) {
+  border-radius: 6px;
+}
+:root .inforSoHoXi .qf-grid-form :is(.textcontrol, .twocoltextcontrol, .threecoltextcontrol):hover:not(:empty):not(:has(.dijitDisabled, input:disabled, textarea:disabled, select:disabled)) {
+  box-shadow: inset 0 0 0 1px var(--modern-muted);
+}
+/* Replace the legacy blue hover outline with a deliberate keyboard/edit cue. */
+:root .inforSoHoXi .qf-grid-form :is(.textcontrol, .twocoltextcontrol, .threecoltextcontrol):hover:not(:focus-within) {
+  outline: none;
+}
+:root .inforSoHoXi .qf-grid-form :is(.textcontrol, .twocoltextcontrol, .threecoltextcontrol):focus-within {
+  outline: 2px solid var(--modern-accent) !important;
+  outline-offset: 1px;
+}
+:root .inforSoHoXi .qf-grid-form :is(.textcontrol, .twocoltextcontrol, .threecoltextcontrol):has(.dijitError, [aria-invalid="true"]) {
+  box-shadow: inset 0 0 0 1px var(--ids-color-status-danger);
+}
+:root .inforSoHoXi .qf-grid-form :is(.textcontrol, .twocoltextcontrol, .threecoltextcontrol):has(.dijitError, [aria-invalid="true"]):focus-within {
+  outline-color: var(--ids-color-status-danger) !important;
+}
+:root .inforSoHoXi .qf-grid-form :is(.textcontrol, .twocoltextcontrol, .threecoltextcontrol):has(.dijitReadOnly, input[readonly], textarea[readonly]) {
+  /* Match the inner control surface, including the inset-caption padding. */
+  background-color: var(--input-color-initial-background);
+}
+:root .inforSoHoXi .qf-grid-form :is(.textcontrol, .twocoltextcontrol, .threecoltextcontrol):has(.dijitDisabled, input:disabled, textarea:disabled, select:disabled) {
+  background-color: var(--input-color-disabled-background);
+  color: var(--input-color-disabled-font);
+}
+:root .inforSoHoXi .qf-grid-form .slxlabel.checkbox > label {
+  font-family: var(--modern-font);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 20px;
+  color: var(--modern-text);
+}
+:root .inforSoHoXi .qf-grid-form .textcontrol.address {
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 20px;
+}
+:root .inforSoHoXi .qf-grid-form hr {
+  height: 0;
+  border: 0;
+  border-top: 1px solid var(--modern-border);
+}
+
+
+/* Outlined fields with inset captions for the stacked QuickForm layout.
+   Keep the original labels/associations; no generated text or markup changes. */
+:root .inforSoHoXi .qf-grid-form:is(:not(.is-custom), .opt-in) .qf-grid-cell > :is(.lbl, .twocollbl):has(+ :is(.textcontrol, .twocoltextcontrol, .threecoltextcontrol):not(:empty)) {
+  position: relative;
+  z-index: 1;
+  align-self: flex-start;
+  box-sizing: border-box;
+  width: fit-content;
+  max-width: calc(100% - 24px);
+  margin: 0 12px;
+  padding: 0 4px;
+  background: var(--modern-surface);
+  border-radius: 2px;
+  transform: translateY(50%);
+  line-height: 18px;
+}
+:root .inforSoHoXi .qf-grid-form:is(:not(.is-custom), .opt-in) .qf-grid-cell > :is(.lbl, .twocollbl):has(+ :is(.textcontrol, .twocoltextcontrol, .threecoltextcontrol):not(:empty)) > label {
+  margin: 0;
+  padding: 0;
+  color: inherit;
+  line-height: inherit;
+}
+:root .inforSoHoXi .qf-grid-form:is(:not(.is-custom), .opt-in) .qf-grid-cell > :is(.lbl, .twocollbl) + :is(.textcontrol, .twocoltextcontrol, .threecoltextcontrol):not(:empty) {
+  box-sizing: border-box;
+  margin-top: 0;
+  padding-top: 8px;
+  border: 1px solid var(--input-color-initial-border);
+  border-radius: 6px;
+  box-shadow: none;
+}
+:root .inforSoHoXi .qf-grid-form:is(:not(.is-custom), .opt-in) .qf-grid-cell > :is(.lbl, .twocollbl) + :is(.textcontrol, .twocoltextcontrol, .threecoltextcontrol):not(:empty):hover {
+  border-color: var(--modern-muted);
+  box-shadow: none;
+}
+:root .inforSoHoXi .qf-grid-form:is(:not(.is-custom), .opt-in) .qf-grid-cell > :is(.lbl, .twocollbl) + :is(.textcontrol, .twocoltextcontrol, .threecoltextcontrol):not(:empty):focus-within {
+  border-color: var(--modern-accent);
+  box-shadow: none;
+}
+:root .inforSoHoXi .qf-grid-form:is(:not(.is-custom), .opt-in) .qf-grid-cell > :is(.lbl, .twocollbl):has(+ :is(.textcontrol, .twocoltextcontrol, .threecoltextcontrol):not(:empty)):has(+ :focus-within) {
+  color: var(--modern-grid-link);
+}
+:root .inforSoHoXi .qf-grid-form:is(:not(.is-custom), .opt-in) .qf-grid-cell > :is(.lbl, .twocollbl) + :is(.textcontrol, .twocoltextcontrol, .threecoltextcontrol):not(:empty):has(.dijitError, [aria-invalid="true"]) {
+  border-color: var(--ids-color-status-danger);
+}
+:root .inforSoHoXi .qf-grid-form:is(:not(.is-custom), .opt-in) .qf-grid-cell > :is(.lbl, .twocollbl):has(+ :is(.textcontrol, .twocoltextcontrol, .threecoltextcontrol):not(:empty)):has(+ * .dijitError, + * [aria-invalid="true"]) {
+  color: var(--ids-color-status-danger);
+}
+:root .inforSoHoXi .qf-grid-form:is(:not(.is-custom), .opt-in) .qf-grid-cell > :is(.lbl, .twocollbl) + :is(.textcontrol, .twocoltextcontrol, .threecoltextcontrol):not(:empty):has(.dijitDisabled, input:disabled, textarea:disabled, select:disabled) {
+  border-color: var(--modern-border);
+}
+/* The composite's outer border is the field boundary; avoid nested boxes. */
+:root .inforSoHoXi .qf-grid-form:is(:not(.is-custom), .opt-in) .qf-grid-cell > :is(.lbl, .twocollbl) + :is(.textcontrol, .twocoltextcontrol, .threecoltextcontrol):not(:empty) :is(.dijitTextBox, .dijitSelect):not(.dijitError) {
+  border-color: transparent;
+  box-shadow: none;
+}
+
+
+/* A composite field has one focus boundary, on its outer shell. */
+:root .inforSoHoXi .qf-grid-form:is(:not(.is-custom), .opt-in) .qf-grid-cell > :is(.lbl, .twocollbl) + :is(.textcontrol, .twocoltextcontrol, .threecoltextcontrol):not(:empty):focus-within {
+  --modern-field-focus: var(--modern-accent);
+  border-color: var(--modern-field-focus);
+  outline: none !important;
+  box-shadow: inset 0 0 0 1px var(--modern-field-focus);
+}
+:root .inforSoHoXi .qf-grid-form:is(:not(.is-custom), .opt-in) .qf-grid-cell > :is(.lbl, .twocollbl) + :is(.textcontrol, .twocoltextcontrol, .threecoltextcontrol):not(:empty):has(.dijitError, [aria-invalid="true"]):focus-within {
+  --modern-field-focus: var(--ids-color-status-danger);
+}
+:root .inforSoHoXi .qf-grid-form:is(:not(.is-custom), .opt-in) .qf-grid-cell > :is(.lbl, .twocollbl) + :is(.textcontrol, .twocoltextcontrol, .threecoltextcontrol):not(:empty) :is(.dijitTextBox, .dijitSelect, .dijitInputContainer, .dijitInputField, input:not([type="button"]):not([type="submit"]):not([type="checkbox"]):not([type="radio"]), textarea, select) {
+  outline: none !important;
+  box-shadow: none !important;
+}
+:root .inforSoHoXi .qf-grid-form:is(:not(.is-custom), .opt-in) .qf-grid-cell > :is(.lbl, .twocollbl) + :is(.textcontrol, .twocoltextcontrol, .threecoltextcontrol):not(:empty) :is(.dijitTextBox, .dijitSelect, .dijitInputInner) {
+  border-color: transparent !important;
+}
+
+
+/* Form-level Sage tabs share the header and GroupTabs theme colors. */
+:root .inforSoHoXi .tws :is(.tws-main-tab-buttons, .tws-more-tab-buttons) {
+  font-family: var(--modern-font);
+  font-size: 13px !important;
+  font-weight: 400 !important;
+  text-transform: none !important;
+  background-color: var(--slx-header-color);
+  color: var(--slx-tab-color);
+}
+:root .inforSoHoXi .tws .tws-main-tab-buttons :is(.tws-tab-button, .tws-active-tab-button) {
+  color: var(--slx-tab-color) !important;
+  background: transparent;
+  font-family: var(--modern-font);
+  font-size: 13px;
+  font-weight: 400;
+  text-transform: none;
+  border: 0;
+}
+:root .inforSoHoXi .tws .tws-main-tab-buttons li a {
+  color: var(--slx-tab-color);
+}
+:root .inforSoHoXi .tws .tws-main-tab-buttons li .tws-tab-button-middle {
+  bottom: 0;
+  margin: 0 12px 0 0;
+  border: 0;
+  border-radius: 4px 4px 0 0;
+  color: var(--slx-tab-color) !important;
+  font-weight: 400;
+  box-shadow: none;
+}
+:root .inforSoHoXi .tws .tws-main-tab-buttons li .tws-tab-button-middle > span {
+  font-family: var(--modern-font);
+  font-size: 13px;
+  font-weight: inherit;
+  color: inherit;
+  text-transform: none;
+}
+:root .inforSoHoXi .tws .tws-main-tab-buttons :is(.tws-tab-button, .tws-active-tab-button):hover,
+:root .inforSoHoXi .tws .tws-main-tab-buttons .tws-active-tab-button {
+  background-color: var(--slx-subheader-color);
+}
+:root .inforSoHoXi .tws .tws-main-tab-buttons li .tws-tab-button-middle:hover {
+  border: 0;
+  box-shadow: inset 0 -2px var(--slx-tab-color);
+}
+:root .inforSoHoXi .tws .tws-main-tab-buttons li.tws-active-tab-button .tws-tab-button-middle,
+:root .inforSoHoXi .tws .tws-main-tab-buttons li.tws-active-tab-button .tws-tab-button-middle:hover {
+  color: var(--slx-tab-color) !important;
+  border: 0;
+  font-weight: 600;
+  box-shadow: inset 0 -3px var(--slx-tab-color);
+}
+:root .inforSoHoXi .tws .tws-main-tab-buttons li a:focus-visible {
+  outline: 2px solid var(--slx-tab-color) !important;
+  outline-offset: -2px;
+}
+:root .inforSoHoXi .tws .tws-tab-view-header {
+  background: var(--modern-surface-alt);
+  color: var(--modern-text);
+  font-family: var(--modern-font);
+  font-size: 13px;
+  font-weight: 400;
+}
+/* Embedded GridView must not inherit the legacy bold tab-section font. */
+:root .inforSoHoXi .abstractGrid {
+  font-family: var(--modern-font);
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--modern-text);
+}
+:root .inforSoHoXi .abstractGrid .list-panel-tbar {
+  box-sizing: border-box;
+  min-height: 26px;
+  padding: 3px 8px;
+  font-family: var(--modern-font);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 20px;
+  color: var(--modern-muted);
+}
+:root .inforSoHoXi .abstractGrid .list-panel-tbar > [dojoattachpoint="labelSection"] {
+  font: inherit;
+  color: inherit;
+}
+
+
+/* Record navigator: a compact, clearly separated control in the detail header. */
+:root .inforSoHoXi .mainContentHeaderTable:has(:is(#groupNavigator, .list-panel-tbar:has(> [id$="-Switcher"]))) {
+  background: var(--modern-surface-alt);
+  background: color-mix(in srgb, var(--slx-header-color) 12%, var(--modern-surface));
+  border-bottom: 1px solid var(--modern-border);
+}
+:root .inforSoHoXi :is(#groupNavigator, .list-panel-tbar:has(> [id$="-Switcher"])) {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  box-sizing: border-box;
+  height: auto;
+  min-height: 36px;
+  margin: 0 8px;
+  padding: 3px 6px;
+  vertical-align: middle;
+  white-space: nowrap;
+  background: var(--modern-surface);
+  border: 1px solid var(--modern-border);
+  border-radius: 6px;
+  box-shadow: inset 0 2px var(--modern-accent);
+  color: var(--modern-text);
+  font-family: var(--modern-font);
+  font-size: 13px;
+  line-height: 20px;
+}
+:root .inforSoHoXi :is(#groupNavigator, .list-panel-tbar:has(> [id$="-Switcher"])) > .dijitButton {
+  flex: 0 0 auto;
+  margin: 0;
+  padding: 0;
+}
+:root .inforSoHoXi :is(#groupNavigator, .list-panel-tbar:has(> [id$="-Switcher"])) .dijitButton > .dijitButtonNode {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 28px !important;
+  height: 28px !important;
+  padding: 0 !important;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: inherit;
+  box-shadow: none;
+  line-height: 1 !important;
+}
+:root .inforSoHoXi :is(#groupNavigator, .list-panel-tbar:has(> [id$="-Switcher"])) .dijitButtonContents {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border-radius: 4px;
+}
+:root .inforSoHoXi :is(#groupNavigator, .list-panel-tbar:has(> [id$="-Switcher"])) .dijitButtonText:empty {
+  display: none;
+}
+:root .inforSoHoXi :is(#groupNavigator, .list-panel-tbar:has(> [id$="-Switcher"])) > .dijitToolbarLabel {
+  margin: 0;
+  padding: 0 8px;
+  font: inherit;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--modern-text);
+  line-height: 28px;
+}
+:root .inforSoHoXi :is(#groupNavigator, .list-panel-tbar:has(> [id$="-Switcher"])) .dijitButton:not(.dijitButtonDisabled):hover > .dijitButtonNode {
+  background: var(--modern-surface-alt);
+  box-shadow: inset 0 0 0 1px var(--modern-border);
+}
+:root .inforSoHoXi :is(#groupNavigator, .list-panel-tbar:has(> [id$="-Switcher"])) .dijitButtonContents:focus-visible {
+  outline: 2px solid var(--modern-accent);
+  outline-offset: -2px;
+}
+:root .inforSoHoXi :is(#groupNavigator, .list-panel-tbar:has(> [id$="-Switcher"])) .dijitButtonDisabled > .dijitButtonNode {
+  opacity: .4;
+  cursor: default;
+}
+/* Show List shares the navigator surface; no full-height wrapper divider. */
+:root .inforSoHoXi :is(#groupNavigator, .list-panel-tbar) > [id$="-Switcher"] {
+  margin: 0;
+  padding: 0;
+  border: 0 !important;
+  background: transparent;
+  box-shadow: none;
+}
+
+/* Allow the entire detail-header channel to grow around the navigator. */
+:root .inforSoHoXi .mainContentHeader:has(.mainContentHeaderToolsCenter .list-panel-tbar) {
+  box-sizing: border-box;
+  height: auto !important;
+  min-height: 54px;
+  background: var(--modern-surface-alt);
+  background: color-mix(in srgb, var(--slx-header-color) 12%, var(--modern-surface));
+  padding: 0;
+  overflow: visible;
+}
+:root .inforSoHoXi .mainContentHeaderTable:has(.mainContentHeaderToolsCenter .list-panel-tbar) {
+  width: 100%;
+  height: auto !important;
+  min-height: 54px;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: var(--modern-surface-alt);
+  background: color-mix(in srgb, var(--slx-header-color) 12%, var(--modern-surface));
+  border-bottom: 1px solid var(--modern-border);
+  font-family: var(--modern-font);
+  font-size: 13px;
+  line-height: 20px;
+}
+:root .inforSoHoXi .mainContentHeaderTable:has(.mainContentHeaderToolsCenter .list-panel-tbar) > tbody > tr > td {
+  box-sizing: border-box;
+  height: auto;
+  padding: 8px 12px;
+  vertical-align: middle;
+}
+:root .inforSoHoXi .mainContentHeaderTable:has(.mainContentHeaderToolsCenter .list-panel-tbar) .mainContentHeaderToolsRight {
+  line-height: 28px;
+  vertical-align: middle;
+}
+
+/* Give group and form-tab captions consistent horizontal breathing room. */
+:root .inforSoHoXi #GroupTabs .tabLabel,
+:root .inforSoHoXi .tws :is(.tws-main-tab-buttons, .tws-more-tab-buttons) .tws-tab-button-middle > span {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+/* Application footer: balanced status text and accessible session actions. */
+:root .inforSoHoXi #MainFooter {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  /* Dojo calculates ContentPane dimensions using the content box. */
+  box-sizing: content-box;
+  min-height: 27px;
+  padding: 4px 12px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  background: var(--slx-subheader-color);
+  color: var(--modern-on-accent);
+  border: 0;
+  border-top: 1px solid color-mix(in srgb, var(--modern-on-accent) 20%, transparent);
+  font-family: var(--modern-font);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 20px;
+}
+:root .inforSoHoXi #MainFooter > :is(span, div) {
+  float: none;
+  flex: 0 0 auto;
+  margin: 0;
+  line-height: 20px;
+  white-space: nowrap;
+}
+:root .inforSoHoXi #MainFooter #copyright {
+  order: 0;
+  flex: 0 1 auto;
+  min-width: 0;
+  margin-right: auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: inherit;
+}
+:root .inforSoHoXi #MainFooter #statusMessage { order: 1; }
+:root .inforSoHoXi #MainFooter #lclLoginName { order: 2; }
+:root .inforSoHoXi #MainFooter #lclCurrentDate { order: 3; }
+:root .inforSoHoXi #MainFooter #autoLogoff { order: 4; }
+:root .inforSoHoXi #MainFooter #TimeZoneMenu { order: 5; }
+:root .inforSoHoXi #MainFooter #LogOffButton { order: 6; }
+:root .inforSoHoXi #MainFooter :is(#statusMessage, #autoLogoff):empty {
+  display: none;
+}
+:root .inforSoHoXi #MainFooter :is(#lclCurrentDate, #lclLoginName, #copyright) :is(span, label, a) {
+  font: inherit;
+  color: inherit;
+}
+:root .inforSoHoXi #MainFooter :is(#TimeZoneMenu, #LogOffButton) {
+  height: auto;
+  padding: 0 0 0 12px;
+  border: 0;
+  border-left: 1px solid color-mix(in srgb, var(--modern-on-accent) 25%, transparent);
+  font: inherit;
+  color: inherit;
+}
+:root .inforSoHoXi #MainFooter :is(#TimeZoneMenu, #LogOffButton) > .dijitMenuItem {
+  box-sizing: border-box;
+  height: 26px;
+  margin: 0;
+  padding: 3px 6px;
+  border: 0;
+  border-radius: 4px;
+  font: inherit;
+  line-height: 20px;
+  color: inherit;
+  vertical-align: middle !important;
+}
+:root .inforSoHoXi #MainFooter :is(#TimeZoneMenu, #LogOffButton) .dijitMenuItemLabel {
+  font: inherit;
+  color: inherit;
+  text-decoration: none;
+}
+:root .inforSoHoXi #MainFooter :is(#TimeZoneMenu, #LogOffButton) > .dijitMenuItem:hover {
+  background: color-mix(in srgb, var(--modern-on-accent) 14%, transparent) !important;
+}
+:root .inforSoHoXi #MainFooter :is(.dijitMenuItem, a):focus-visible {
+  outline: 2px solid var(--modern-on-accent);
+  outline-offset: -2px;
+}
+
+/* More Tabs: remove the spacer reserved for its hidden header. */
+:root .inforSoHoXi .tws .tws-main-tab-content .tws-more-tab-element .tws-more-tab-layout {
+  margin-top: 0;
+  border-spacing: 8px;
+}
+:root .inforSoHoXi .tws .tws-more-tab-element .tws-more-tab-buttons {
+  background: var(--slx-header-color);
+  color: var(--slx-tab-color);
+  font-family: var(--modern-font);
+  font-size: 13px !important;
+  font-weight: 400 !important;
+}
+:root .inforSoHoXi .tws .tws-more-tab-element .tws-more-tab-buttons-title {
+  padding: 4px 32px 4px 12px;
+  line-height: 24px;
+  background: var(--slx-subheader-color);
+  color: var(--slx-tab-color);
+  font-size: 13px;
+  font-weight: 600;
+}
+:root .inforSoHoXi .tws .tws-more-tab-element .tws-more-tab-buttons-tools {
+  top: 4px;
+  right: 8px;
+}
+:root .inforSoHoXi .tws .tws-more-tab-element .tws-more-tab-buttons ul {
+  box-sizing: border-box;
+  padding: 6px;
+}
+:root .inforSoHoXi .tws .tws-more-tab-element .tws-more-tab-buttons li.tws-more-tab-button {
+  box-sizing: border-box;
+  margin: 2px 0;
+  padding: 6px 10px;
+  min-height: 32px;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--slx-tab-color);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 20px;
+}
+:root .inforSoHoXi .tws .tws-more-tab-element .tws-more-tab-buttons li.tws-more-tab-button span {
+  color: inherit;
+  font: inherit;
+  border-bottom: 0;
+  text-decoration: none;
+}
+:root .inforSoHoXi .tws .tws-more-tab-element .tws-more-tab-buttons li.tws-more-tab-button:hover {
+  background: var(--slx-subheader-color);
+}
+:root .inforSoHoXi .tws .tws-more-tab-element .tws-more-tab-buttons li.tws-active-more-tab-button,
+:root .inforSoHoXi .tws .tws-more-tab-element .tws-more-tab-buttons li.tws-active-more-tab-button:hover {
+  background: var(--slx-subheader-color);
+  color: var(--slx-tab-color);
+  font-weight: 600;
+  box-shadow: inset 3px 0 var(--slx-tab-color);
+}
+:root .inforSoHoXi .tws .tws-more-tab-element .tws-more-tab-buttons li.tws-more-tab-button:focus-visible,
+:root .inforSoHoXi .tws .tws-more-tab-element .tws-more-tab-buttons li.tws-more-tab-button :focus-visible {
+  outline: 2px solid var(--slx-tab-color);
+  outline-offset: -2px;
+}
+
+/* Legacy child grids share the same appearance as the dgrid/SData lists. */
+:root .inforSoHoXi table.datagrid {
+  font-family: var(--modern-font);
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--modern-text);
+  background: var(--modern-surface);
+  border-color: var(--modern-grid-line);
+}
+:root .inforSoHoXi table.datagrid > :is(thead, tbody, tfoot) > tr.rowhead,
+:root .inforSoHoXi table.datagrid > :is(thead, tbody, tfoot) > tr > th {
+  background: var(--modern-surface-alt);
+  color: var(--modern-text);
+  border-color: var(--modern-grid-line);
+}
+:root .inforSoHoXi table.datagrid > :is(thead, tbody, tfoot) > tr > th {
+  box-sizing: border-box;
+  height: var(--slx-datagrid-header-height);
+  padding: 0 8px !important;
+  font-family: var(--modern-font);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 20px;
+  vertical-align: middle;
+  box-shadow: inset 0 -1px var(--modern-grid-line);
+  text-shadow: none;
+}
+:root .inforSoHoXi table.datagrid th a {
+  color: var(--modern-text) !important;
+  font: inherit;
+  text-decoration: none;
+}
+:root .inforSoHoXi table.datagrid th:has(a):hover {
+  background: var(--modern-hover);
+}
+:root .inforSoHoXi table.datagrid > :is(tbody, tfoot) > tr:not(.gridPager):not(.rowhead) > td {
+  box-sizing: border-box;
+  height: var(--slx-datagrid-row-height);
+  padding: 3px 8px;
+  font-family: var(--modern-font);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 20px;
+  vertical-align: middle;
+  background: var(--modern-surface);
+  color: var(--modern-text);
+  border-bottom: 1px solid var(--modern-grid-line);
+}
+:root .inforSoHoXi table.datagrid > tbody > :is(.rowlt, .rowdk):hover > td {
+  background: var(--modern-hover);
+}
+:root .inforSoHoXi table.datagrid > tbody > tr.rowSelected > td,
+:root .inforSoHoXi table.datagrid > tbody > tr.rowSelected:hover > td {
+  background: var(--modern-selected);
+  color: var(--modern-text);
+}
+:root .inforSoHoXi table.datagrid > tbody > tr.rowSelected > td:first-child {
+  box-shadow: inset 3px 0 var(--modern-accent);
+}
+:root .inforSoHoXi table.datagrid td :is(a[href], .activity-type-link) {
+  color: var(--modern-grid-link) !important;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: 400 !important;
+  text-decoration: none !important;
+  text-shadow: none;
+}
+:root .inforSoHoXi table.datagrid td :is(a[href], .activity-type-link):hover,
+:root .inforSoHoXi table.datagrid td :is(a[href], .activity-type-link):focus-visible {
+  text-decoration: underline !important;
+  text-underline-offset: 3px;
+}
+:root .inforSoHoXi table.datagrid a:focus-visible {
+  outline: 1px dashed var(--modern-text);
+  outline-offset: 2px;
+}
+:root .inforSoHoXi .slx-grid .gridPager,
+:root .inforSoHoXi table.datagrid .gridPager {
+  background: var(--modern-surface-alt);
+  color: var(--modern-muted);
+  font-family: var(--modern-font);
+  font-size: 13px;
+  font-weight: 400;
+}
+:root .inforSoHoXi :is(.slx-grid, table.datagrid) .gridPager td {
+  padding: 3px 8px;
+  border-color: var(--modern-grid-line);
+  line-height: 20px;
+  color: var(--modern-muted);
+  font-size: 13px;
+  font-weight: 400;
+}
+:root .inforSoHoXi :is(.slx-grid, table.datagrid) .gridPager span {
+  color: var(--modern-muted);
+  font-size: inherit;
+  font-weight: 400;
+}
+
+/* Navigation scrollbars blend with the toolbar surface without hiding the thumb. */
+:root .inforSoHoXi :is(#mainnavContainer, #MainNav, #MainNav *) {
+  --modern-nav-scroll-track: var(--slx-subheader-color);
+  --modern-nav-scroll-thumb: color-mix(in srgb, var(--slx-tab-color) 35%, var(--slx-subheader-color));
+  scrollbar-color: var(--modern-nav-scroll-thumb) var(--modern-nav-scroll-track);
+  scrollbar-width: thin;
+}
+/* Fallback for browsers that use scrollbar pseudo-elements. */
+@supports not (scrollbar-color: auto) {
+  :root .inforSoHoXi :is(#mainnavContainer, #MainNav, #MainNav *)::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  :root .inforSoHoXi :is(#mainnavContainer, #MainNav, #MainNav *)::-webkit-scrollbar-track,
+  :root .inforSoHoXi :is(#mainnavContainer, #MainNav, #MainNav *)::-webkit-scrollbar-corner {
+    background: var(--modern-nav-scroll-track);
+  }
+  :root .inforSoHoXi :is(#mainnavContainer, #MainNav, #MainNav *)::-webkit-scrollbar-thumb {
+    min-height: 32px;
+    border: 2px solid var(--modern-nav-scroll-track);
+    border-radius: 8px;
+    background: var(--modern-nav-scroll-thumb);
+  }
+  :root .inforSoHoXi :is(#mainnavContainer, #MainNav, #MainNav *)::-webkit-scrollbar-thumb:hover {
+    background: var(--slx-tab-color);
+  }
+}
+@media (forced-colors: active) {
+  :root .inforSoHoXi :is(#mainnavContainer, #MainNav, #MainNav *) {
+    scrollbar-color: auto;
+  }
+}
+
+/* Shell refinement: quiet dividers, clearer hierarchy, consistent filter spacing. */
+:root .inforSoHoXi :is(#mainnavContainer_splitter, #TaskPane_splitter, #innerBorder > .dijitSplitterV) {
+  background: var(--modern-surface-alt) !important;
+  background-image: linear-gradient(var(--modern-grid-line), var(--modern-grid-line)) !important;
+  background-size: 1px 100% !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+}
+:root .inforSoHoXi :is(#mainnavContainer_splitter, #TaskPane_splitter, #innerBorder > .dijitSplitterV):is(:hover, .dijitSplitterVActive) {
+  background-color: var(--modern-selected) !important;
+}
+:root .inforSoHoXi :is(#mainnavContainer_splitter, #TaskPane_splitter, #innerBorder > .dijitSplitterV):focus-visible {
+  outline: 2px solid var(--modern-accent);
+  outline-offset: -2px;
+}
+:root .inforSoHoXi :is(#mainnavContainer_splitter, #TaskPane_splitter, #innerBorder > .dijitSplitterV) .dijitSplitterThumb {
+  background: var(--modern-muted);
+}
+:root .inforSoHoXi #titlePane {
+  padding-left: 8px;
+}
+:root .inforSoHoXi #titlePane #PageTitleText {
+  font-family: var(--modern-font);
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 28px;
+}
+:root .inforSoHoXi #titlePane .group-menu-bar > .group-menu-button,
+:root .inforSoHoXi #titlePane .group-menu-bar > .group-menu-button .dijitMenuItemLabel {
+  font-family: var(--modern-font);
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--slx-tab-color);
+}
+:root .inforSoHoXi #TaskPane .task-pane-item > .dijitTitlePaneTitle {
+  padding: 4px 8px;
+  box-shadow: inset 0 -1px var(--modern-grid-line);
+}
+:root .inforSoHoXi #TaskPane .filter-type-checkbox {
+  margin: 6px 0 10px;
+}
+:root .inforSoHoXi #TaskPane .filter-type-checkbox > h3 {
+  margin: 0 0 4px;
+}
+:root .inforSoHoXi #TaskPane .filter-list {
+  margin: 4px 0 10px;
+}
+:root .inforSoHoXi #TaskPane .filter-list > li {
+  margin: 1px 0;
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+:root .inforSoHoXi #TaskPane .filter-list > li.filter-selected {
+  background: var(--modern-selected);
+  box-shadow: inset 2px 0 var(--modern-accent);
+}
+:root .inforSoHoXi #TaskPane .filter-type-checkbox:has(.filter-selected) > h3 {
+  color: var(--modern-grid-link);
+  background: var(--modern-hover);
+}
+:root .inforSoHoXi #TaskPane .filter-summary {
+  padding: 8px 0;
+  margin-bottom: 8px;
+  border-color: var(--modern-grid-line);
+}
+:root .inforSoHoXi #MainFooter :is(#copyright, #lclCurrentDate) {
+  color: color-mix(in srgb, var(--modern-on-accent) 85%, var(--slx-subheader-color));
+}
+
+/* Quickform switches must not combine legacy translation with thumb positioning. */
+:root .inforSoHoXi .qf-grid-cell .slxlabel.checkbox .dijitCheckBox:not(.dijitRadio) {
+  width: 36px;
+  height: 20px;
+  border: 1px solid var(--modern-muted);
+  background: var(--modern-surface-alt) !important;
+}
+:root .inforSoHoXi .qf-grid-cell .slxlabel.checkbox .dijitCheckBox:not(.dijitRadio)::after {
+  inset: auto;
+  inset-block-start: 3px;
+  inset-inline-start: 3px;
+  width: 12px;
+  height: 12px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--modern-muted);
+  transform: none;
+  box-shadow: none;
+  transition: inset-inline-start var(--modern-motion);
+}
+:root .inforSoHoXi .qf-grid-cell .slxlabel.checkbox .dijitCheckBox:not(.dijitRadio):is(.dijitCheckBoxChecked, :has(input:checked)) {
+  border-color: var(--modern-action);
+  background: var(--modern-action) !important;
+}
+:root .inforSoHoXi .qf-grid-cell .slxlabel.checkbox .dijitCheckBox:not(.dijitRadio):is(.dijitCheckBoxChecked, :has(input:checked))::after {
+  inset-inline-start: 19px;
+  background: var(--modern-on-accent);
+  transform: none;
+}
+@media (forced-colors: active) {
+  :root .inforSoHoXi .qf-grid-cell .slxlabel.checkbox .dijitCheckBox:not(.dijitRadio) {
+    background: Canvas !important;
+    border-color: ButtonText;
+  }
+  :root .inforSoHoXi .qf-grid-cell .slxlabel.checkbox .dijitCheckBox:not(.dijitRadio)::after {
+    background: ButtonText;
+    forced-color-adjust: none;
+  }
+}
+
+/* Picklist launchers are field icons, not filled action buttons. */
+:root .inforSoHoXi .picklist .dijitDropDownButton > .dijitButtonNode {
+  position: relative;
+  box-sizing: border-box;
+  width: 16px;
+  height: 16px;
+  padding: 0;
+  border: 0;
+  border-radius: 3px;
+  background: transparent;
+  color: var(--modern-text);
+  box-shadow: none;
+  filter: none;
+}
+:root .inforSoHoXi .picklist .dijitDropDownButton > .dijitButtonNode::before {
+  content: "\2026";
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--modern-font);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 16px;
+  color: inherit;
+  pointer-events: none;
+}
+:root .inforSoHoXi .picklist .dijitDropDownButton:not(.dijitDropDownButtonDisabled):hover > .dijitButtonNode {
+  background: var(--modern-hover);
+  color: var(--modern-grid-link);
+  box-shadow: none;
+}
+:root .inforSoHoXi .picklist .dijitDropDownButtonDisabled > .dijitButtonNode {
+  background: transparent;
+  color: var(--modern-muted);
+  box-shadow: none;
+}
+:root .inforSoHoXi .picklist .dijitDropDownButton:has(:focus-visible) > .dijitButtonNode {
+  outline: 2px solid var(--modern-accent);
+  outline-offset: 2px;
+}
+
+/* Multiselect picklist: inset options and show selection across the whole row. */
+:root .inforSoHoXi .multiSelectPickListDialog .dijitTooltipContainer {
+  padding: 12px;
+  background: var(--modern-surface);
+  color: var(--modern-text);
+  border: 1px solid var(--modern-border);
+  border-radius: var(--modern-radius);
+  box-shadow: var(--modern-shadow-raised);
+  font-family: var(--modern-font);
+  font-size: 13px;
+}
+:root .inforSoHoXi .multiSelectPickListDialog .multiselect-picklist-tooltip-container {
+  box-sizing: border-box;
+  padding: 4px;
+  scrollbar-width: thin;
+}
+:root .inforSoHoXi .multiSelectPickListDialog .multiselect-picklist-checkbox-wrapper {
+  display: grid;
+  grid-template-columns: 36px minmax(0, 1fr);
+  align-items: center;
+  column-gap: 10px;
+  box-sizing: border-box;
+  min-height: 34px;
+  margin: 2px 0;
+  padding: 6px 10px;
+  border-radius: 5px;
+  background: var(--modern-surface);
+  color: var(--modern-text);
+}
+:root .inforSoHoXi .multiSelectPickListDialog .multiselect-picklist-checkbox-wrapper > label {
+  width: auto;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  color: inherit;
+  font-family: var(--modern-font);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 20px;
+  cursor: pointer;
+}
+:root .inforSoHoXi .multiSelectPickListDialog .multiselect-picklist-checkbox-wrapper:hover {
+  background: var(--modern-hover);
+}
+:root .inforSoHoXi .multiSelectPickListDialog .multiselect-picklist-checkbox-wrapper:has(input:checked),
+:root .inforSoHoXi .multiSelectPickListDialog .multiselect-picklist-checkbox-wrapper:has(.dijitCheckBoxChecked) {
+  background: var(--modern-selected);
+  color: var(--modern-text);
+  box-shadow: inset 3px 0 var(--modern-accent);
+}
+:root .inforSoHoXi .multiSelectPickListDialog .multiselect-picklist-checkbox-wrapper:has(input:checked) > label {
+  font-weight: 600;
+}
+:root .inforSoHoXi .multiSelectPickListDialog .multiselect-picklist-checkbox-wrapper:has(:focus-visible) {
+  outline: 2px solid var(--modern-accent);
+  outline-offset: -2px;
+}
+/* The legacy checkmark transform must not displace the switch thumb. */
+:root .inforSoHoXi .multiSelectPickListDialog .dijitCheckBox:not(.dijitRadio)::after {
+  border: 0;
+  transform: none;
+}
+:root .inforSoHoXi .multiSelectPickListDialog .multiselect-picklist-tooltip-container + div {
+  box-sizing: border-box;
+  margin-top: 8px;
+  padding: 8px 4px 0;
+  border-top: 1px solid var(--modern-grid-line);
+}
+:root .inforSoHoXi .multiSelectPickListDialog .multiselect-picklist-tooltip-container + div > p {
+  margin: 0;
+}
+
+/* Lookup search conditions: consistent field shells and a single focus boundary. */
+:root .inforSoHoXi .dijitDialog .lookup-condition-row {
+  column-gap: 12px;
+  row-gap: 8px;
+  margin: 8px 0;
+  font-family: var(--modern-font);
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--modern-text);
+}
+:root .inforSoHoXi .dijitDialog .lookup-condition-row .lookupLabel {
+  width: auto;
+  min-width: 80px;
+  justify-self: start;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 20px;
+  color: var(--modern-text);
+}
+:root .inforSoHoXi .dijitDialog .lookup-condition-row :is(.dijitSelect, .dijitTextBox) {
+  box-sizing: border-box;
+  min-height: 34px;
+  margin: 0;
+  border: 1px solid var(--input-color-initial-border) !important;
+  border-radius: 6px;
+  background: var(--input-color-initial-background);
+  color: var(--modern-text);
+  font-family: var(--modern-font);
+  font-size: 13px;
+  font-weight: 400;
+  outline: none !important;
+  box-shadow: none !important;
+}
+:root .inforSoHoXi .dijitDialog .lookup-condition-row :is(.dijitSelect, .dijitTextBox):focus-within {
+  border-color: var(--modern-accent) !important;
+  box-shadow: inset 0 0 0 1px var(--modern-accent) !important;
+}
+:root .inforSoHoXi .dijitDialog .lookup-condition-row :is(.dijitSelect, .dijitTextBox).dijitError {
+  border-color: var(--ids-color-status-danger) !important;
+}
+:root .inforSoHoXi .dijitDialog .lookup-condition-row :is(.dijitSelect, .dijitTextBox).dijitError:focus-within {
+  box-shadow: inset 0 0 0 1px var(--ids-color-status-danger) !important;
+}
+:root .inforSoHoXi .dijitDialog .lookup-condition-row :is(.dijitSelect, .dijitTextBox) :is(.dijitButtonNode, .dijitInputContainer, .dijitInputField, .dijitInputInner) {
+  outline: none !important;
+  box-shadow: none !important;
+  border-color: transparent !important;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 400;
+}
+:root .inforSoHoXi .dijitDialog .lookup-condition-row .dijitSelectLabel {
+  width: auto;
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--modern-text);
+}
+:root .inforSoHoXi .dijitDialog .lookup-condition-row .dijitArrowButton {
+  width: 28px;
+  padding: 0;
+  background: var(--modern-surface-alt);
+  color: var(--modern-text);
+  border-radius: 0 5px 5px 0;
+}
+:root .inforSoHoXi .dijitDialog .lookup-condition-row .dijitArrowButtonInner {
+  box-sizing: content-box;
+  width: 5px;
+  height: 5px;
+  margin: 0 auto 3px;
+  padding: 0;
+  background: none;
+  border: solid var(--modern-text);
+  border-width: 0 1.5px 1.5px 0;
+  transform: rotate(45deg);
+  font-size: 0;
+}
+:root .inforSoHoXi .dijitDialog .lookup-condition-row .conditionButton .imageButtonNode {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 34px;
+  height: 34px;
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--modern-border);
+  border-radius: 6px;
+  background: var(--modern-surface-alt);
+  color: var(--modern-text);
+  box-shadow: none;
+}
+:root .inforSoHoXi .dijitDialog .lookup-condition-row .conditionButton img {
+  filter: none;
+}
+:root[data-theme-mode="dark"] .inforSoHoXi .dijitDialog .lookup-condition-row .conditionButton img,
+:root .inforSoHoXi[data-theme-mode="dark"] .dijitDialog .lookup-condition-row .conditionButton img {
+  filter: invert(1);
+}
+:root .inforSoHoXi .dijitDialog .lookup-condition-row .conditionButton .dijitButtonHover .imageButtonNode {
+  background: var(--modern-hover);
+  border-color: var(--modern-accent);
+}
+:root .inforSoHoXi .dijitDialog:has(.lookup-condition-row) .dijitButton .dijitButtonText {
+  font-family: var(--modern-font);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* Draw lookup chevrons outside the input border-reset rules. */
+:root .inforSoHoXi .dijitDialog .lookup-condition-row .dijitArrowButton {
+  position: relative;
+  width: 28px !important;
+  min-width: 28px;
+}
+:root .inforSoHoXi .dijitDialog .lookup-condition-row .dijitArrowButtonInner {
+  opacity: 0;
+}
+:root .inforSoHoXi .dijitDialog .lookup-condition-row .dijitArrowButton::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 6px;
+  height: 6px;
+  border: solid var(--modern-text);
+  border-width: 0 1.5px 1.5px 0;
+  transform: translate(-50%, -70%) rotate(45deg);
+  pointer-events: none;
+}
+/* Select menus are portalled outside the lookup dialog by Dijit. */
+:root .inforSoHoXi .dijitSelectMenu:is([id$="_fieldName_menu"], [id$="_operators_menu"]) {
+  background: var(--modern-surface);
+  color: var(--modern-text);
+  border: 1px solid var(--modern-border);
+  border-radius: 6px;
+  box-shadow: var(--modern-shadow-raised);
+  font-family: var(--modern-font);
+  font-size: 13px;
+}
+:root .inforSoHoXi .dijitSelectMenu:is([id$="_fieldName_menu"], [id$="_operators_menu"]) .dijitMenuItem td {
+  background: var(--modern-surface);
+  color: var(--modern-text);
+  border: 0;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 20px;
+}
+:root .inforSoHoXi .dijitSelectMenu:is([id$="_fieldName_menu"], [id$="_operators_menu"]) .dijitMenuItemLabel {
+  padding: 6px 12px;
+}
+:root .inforSoHoXi .dijitSelectMenu:is([id$="_fieldName_menu"], [id$="_operators_menu"]) .dijitMenuItem:is(:hover, .dijitMenuItemHover, .dijitMenuItemSelected) > td {
+  background: var(--modern-hover);
+}
+:root .inforSoHoXi .dijitSelectMenu:is([id$="_fieldName_menu"], [id$="_operators_menu"]) .dijitMenuItem:is(.dijitSelectSelectedOption, [aria-selected="true"]) > td {
+  background: var(--modern-selected);
+  color: var(--modern-text);
+  font-weight: 600;
+}
+:root .inforSoHoXi .dijitSelectMenu:is([id$="_fieldName_menu"], [id$="_operators_menu"]) .dijitMenuItem:is(.dijitSelectSelectedOption, [aria-selected="true"]) > .dijitMenuItemLabel {
+  box-shadow: inset 3px 0 var(--modern-accent);
+}
+:root .inforSoHoXi .dijitSelectMenu:is([id$="_fieldName_menu"], [id$="_operators_menu"]) .dijitMenuItem:focus-visible > .dijitMenuItemLabel {
+  outline: 1px solid var(--modern-accent);
+  outline-offset: -1px;
+}
+
+/* Lookup dropdown scrolling uses the menu surface and theme foreground. */
+:root .inforSoHoXi .dijitSelectMenu:is([id$="_fieldName_menu"], [id$="_operators_menu"]),
+:root .inforSoHoXi .dijitPopup:has(.dijitSelectMenu:is([id$="_fieldName_menu"], [id$="_operators_menu"])) {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--modern-text) 35%, var(--modern-surface)) var(--modern-surface);
+}
+@media (forced-colors: active) {
+  :root .inforSoHoXi .dijitSelectMenu:is([id$="_fieldName_menu"], [id$="_operators_menu"]),
+  :root .inforSoHoXi .dijitPopup:has(.dijitSelectMenu:is([id$="_fieldName_menu"], [id$="_operators_menu"])) {
+    scrollbar-color: auto;
+  }
+}
+
+/* Center dialog titles and header actions in the same row. */
+:root .inforSoHoXi .dijitDialogTitleBar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-sizing: border-box;
+  height: 32px;
+  padding: 0 10px;
+  line-height: 24px;
+}
+:root .inforSoHoXi .dijitDialogTitleBar > .dijitDialogTitle {
+  order: 0;
+  flex: 1 1 auto;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  line-height: 24px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+:root .inforSoHoXi .dijitDialogTitleBar > :is(.dialogHelpIcon, .dijitDialogCloseIcon) {
+  position: static;
+  inset: auto;
+  float: none;
+  flex: 0 0 auto;
+  align-self: center;
+  margin: 0;
+  padding: 0;
+  transform: none;
+}
+:root .inforSoHoXi .dijitDialogTitleBar > .dialogHelpIcon {
+  order: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 24px;
+}
+:root .inforSoHoXi .dijitDialogTitleBar > .dialogHelpIcon > .Global_Images {
+  display: block;
+  margin: 0;
+}
+:root .inforSoHoXi .dijitDialogTitleBar > .dijitDialogCloseIcon {
+  order: 2;
+}
+
+/* Frosted dialog surfaces. Keep controls opaque and Dojo geometry unchanged. */
+@supports (backdrop-filter: blur(16px)) and (background: color-mix(in srgb, white 88%, transparent)) {
+  :root .inforSoHoXi .dijitDialog,
+  :root .inforSoHoXi :is(.dijitTooltipDialog, .multiSelectPickListDialog) .dijitTooltipContainer {
+    background: linear-gradient(135deg,
+      color-mix(in srgb, var(--modern-accent) 7%, transparent),
+      transparent 65%),
+      color-mix(in srgb, var(--modern-surface) 72%, transparent);
+    color: var(--modern-text);
+    border-color: color-mix(in srgb, var(--modern-border) 65%, var(--modern-surface));
+    backdrop-filter: blur(16px) saturate(115%);
+    -webkit-backdrop-filter: blur(16px) saturate(115%);
+    box-shadow: 0 12px 32px var(--slx-boxshadow-color),
+      0 2px 8px var(--slx-boxshadow-color),
+      inset 0 1px 0 color-mix(in srgb, var(--modern-on-accent) 35%, transparent);
+  }
+  :root .inforSoHoXi .dijitDialog > .dijitDialogTitleBar {
+    background: linear-gradient(180deg,
+      color-mix(in srgb, var(--modern-surface-alt) 75%, transparent),
+      color-mix(in srgb, var(--modern-surface-alt) 45%, transparent));
+    box-shadow: inset 0 -1px 0 color-mix(in srgb, var(--modern-border) 65%, transparent);
+  }
+  :root .inforSoHoXi .dijitDialog > .dijitDialogPaneContent {
+    background: transparent;
+    border-radius: 0 0 var(--modern-radius-lg) var(--modern-radius-lg);
+  }
+  :root .inforSoHoXi .dijitDialog .dijitDialogPaneActionBar {
+    background: color-mix(in srgb, var(--modern-surface-alt) 70%, transparent);
+    border-color: var(--modern-border);
+  }
+}
+/* High-contrast and reduced-transparency modes retain solid theme surfaces. */
+:root[data-theme-mode="contrast"] .inforSoHoXi .dijitDialog,
+:root[data-theme-mode="contrast"] .inforSoHoXi :is(.dijitTooltipDialog, .multiSelectPickListDialog) .dijitTooltipContainer,
+:root .inforSoHoXi[data-theme-mode="contrast"] .dijitDialog,
+:root .inforSoHoXi[data-theme-mode="contrast"] :is(.dijitTooltipDialog, .multiSelectPickListDialog) .dijitTooltipContainer {
+  background: var(--modern-surface);
+  border-color: var(--modern-border);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  box-shadow: none;
+}
+@media (prefers-reduced-transparency: reduce), (forced-colors: active) {
+  :root .inforSoHoXi .dijitDialog,
+  :root .inforSoHoXi :is(.dijitTooltipDialog, .multiSelectPickListDialog) .dijitTooltipContainer {
+    background: var(--modern-surface);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    box-shadow: none;
+  }
+}
+
+/* Dropdown focus belongs to the field shell, never to its internal arrow. */
+:root .inforSoHoXi .dijitSelect .dijitButtonNode,
+:root .inforSoHoXi .dijitSelect .dijitButtonContents,
+:root .inforSoHoXi .dijitTextBox .dijitArrowButton {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Welcome page widgets. The form action keeps Dashboard.aspx unaffected. */
+:root .inforSoHoXi form[action*="Home.aspx" i] #Dashboard {
+  font-family: var(--modern-font);
+  font-size: 13px;
+  color: var(--modern-text);
+  background: var(--modern-surface-alt);
+}
+:root .inforSoHoXi form[action*="Home.aspx" i] #Dashboard :is(.gridContainer, .dijitTabPaneWrapper) {
+  background: var(--modern-surface-alt) !important;
+}
+:root .inforSoHoXi form[action*="Home.aspx" i] #Dashboard .dijitTabListContainer-top {
+  background: var(--modern-accent) !important;
+  border-color: var(--modern-accent) !important;
+}
+:root .inforSoHoXi form[action*="Home.aspx" i] #Dashboard .dijitTab {
+  background: transparent !important;
+  background-image: none !important;
+  color: var(--slx-tab-color, var(--modern-on-accent)) !important;
+  border: 0 !important;
+  border-bottom: 3px solid transparent !important;
+  border-radius: 4px 4px 0 0 !important;
+  box-shadow: none !important;
+  font: 400 13px/26px var(--modern-font) !important;
+  padding: 0 5px !important;
+  height: 26px !important;
+}
+:root .inforSoHoXi form[action*="Home.aspx" i] #Dashboard .dijitTab .dijitButtonText {
+  background: transparent !important;
+  color: inherit !important;
+  font: inherit !important;
+  padding: 0 5px !important;
+  border: 0 !important;
+}
+:root .inforSoHoXi form[action*="Home.aspx" i] #Dashboard :is(.dijitTab:hover, .dijitTabChecked) {
+  background: var(--modern-action) !important;
+}
+:root .inforSoHoXi form[action*="Home.aspx" i] #Dashboard .dijitTabChecked {
+  border-bottom-color: var(--modern-on-accent) !important;
+  font-weight: 600 !important;
+}
+:root .inforSoHoXi form[action*="Home.aspx" i] #Dashboard .dojoxPortlet {
+  background: var(--modern-surface);
+  border: 1px solid var(--modern-border);
+  border-radius: var(--modern-radius);
+  box-shadow: var(--modern-shadow);
+  margin-bottom: 12px;
+}
+:root .inforSoHoXi form[action*="Home.aspx" i] #Dashboard .dojoxPortletTitle {
+  height: auto !important;
+  padding: 7px 12px !important;
+  background: var(--modern-surface-alt) !important;
+  border-bottom: 1px solid var(--modern-border);
+  border-radius: 7px 7px 0 0;
+}
+:root .inforSoHoXi form[action*="Home.aspx" i] #Dashboard .dijitTitlePaneTitleFocus {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 22px;
+}
+:root .inforSoHoXi form[action*="Home.aspx" i] #Dashboard .dijitTitlePaneTextNode {
+  order: -1;
+  flex: 1;
+  min-width: 0;
+  color: var(--modern-text) !important;
+  font: 600 13px/22px var(--modern-font) !important;
+}
+:root .inforSoHoXi form[action*="Home.aspx" i] #Dashboard .dojoxPortletIcon {
+  float: none !important;
+  flex: 0 0 15px;
+  margin: 0 !important;
+}
+:root[data-theme-mode="dark"] .inforSoHoXi form[action*="Home.aspx" i] #Dashboard .dojoxPortletIcon {
+  filter: invert(1);
+}
+:root .inforSoHoXi form[action*="Home.aspx" i] #Dashboard .dijitTitlePaneContentInner {
+  padding: 12px !important;
+  background: var(--modern-surface) !important;
+  color: var(--modern-text) !important;
+  font: 400 13px/1.6 var(--modern-font) !important;
+}
+:root .inforSoHoXi form[action*="Home.aspx" i] #Dashboard .dojoxPortletContentOuter {
+  border-color: var(--modern-border) !important;
+  background: var(--modern-surface) !important;
+}
+:root .inforSoHoXi form[action*="Home.aspx" i] #Dashboard .welcome-widget > div {
+  padding: 0 !important;
+}
+:root .inforSoHoXi form[action*="Home.aspx" i] #Dashboard .welcome-widget h2 {
+  color: var(--modern-text);
+  font: 600 20px/1.35 var(--modern-font);
+  margin: 0 0 10px;
+}
+:root .inforSoHoXi form[action*="Home.aspx" i] #Dashboard .welcome-widget p {
+  color: var(--modern-text);
+  margin: 8px 0 0;
+}
+:root .inforSoHoXi form[action*="Home.aspx" i] #Dashboard :is(a, .activity-type-link) {
+  color: var(--modern-grid-link) !important;
+  font: 400 13px/1.6 var(--modern-font) !important;
+  text-decoration: none !important;
+  cursor: pointer;
+}
+:root .inforSoHoXi form[action*="Home.aspx" i] #Dashboard :is(a, .activity-type-link):hover {
+  text-decoration: underline !important;
+}
+:root .inforSoHoXi form[action*="Home.aspx" i] #Dashboard :is(a, .activity-type-link, .dijitTitlePaneTitleFocus, .dijitTab):focus-visible {
+  outline: 2px solid var(--modern-grid-link);
+  outline-offset: 2px;
+}
+:root .inforSoHoXi form[action*="Home.aspx" i] #Dashboard .widget-fbar {
+  padding: 8px 12px;
+  background: var(--modern-surface);
+  border-top: 1px solid var(--modern-border);
+  color: var(--modern-muted);
+  font: 400 12px/18px var(--modern-font);
+}
+
+/* Group header actions: remove legacy offsets and prevent clipped plus glyph. */
+:root .inforSoHoXi #titlePane #groupMenuBar {
+  top: 7px;
+  right: 44px;
+  height: 28px;
+  line-height: 28px;
+}
+:root .inforSoHoXi #titlePane .group-menu-bar > .group-menu-button {
+  height: 28px;
+  line-height: 28px;
+  border-radius: 4px;
+}
+:root .inforSoHoXi #titlePane .group-menu-bar > .group-menu-button > span {
+  display: inline-flex;
+  align-items: center;
+  height: 28px;
+}
+:root .inforSoHoXi #titlePane #addGroupButton {
+  position: absolute;
+  top: 7px;
+  right: 8px;
+  float: none;
+  margin: 0;
+  width: 28px;
+  height: 28px;
+}
+:root .inforSoHoXi #titlePane #addGroupButton > .dijitButtonNode {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 28px;
+  height: 28px;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 1px solid transparent !important;
+  border-radius: 4px;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+:root .inforSoHoXi #titlePane #addGroupButton .dijitButtonContents,
+:root .inforSoHoXi #titlePane #addGroupButton .dijitIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 20px !important;
+  overflow: visible;
+  color: var(--slx-tab-color);
+}
+:root .inforSoHoXi #titlePane #addGroupButton .fa-plus {
+  background: none !important;
+  font-size: 16px;
+}
+:root .inforSoHoXi #titlePane #addGroupButton .dijitButtonText:empty {
+  display: none;
+}
+:root .inforSoHoXi #titlePane #addGroupButton:hover > .dijitButtonNode,
+:root .inforSoHoXi #titlePane .group-menu-bar > .group-menu-button:hover {
+  background: var(--modern-action) !important;
+}
+:root .inforSoHoXi #titlePane #addGroupButton .dijitButtonContents:focus-visible {
+  outline: 2px solid var(--slx-tab-color) !important;
+  outline-offset: 2px;
+}
+
+/* design: appearance overrides */
+
+:root .inforSoHoXi .design-property-editor,
+:root .inforSoHoXi .design-editablegrid {
+  border-color: var(--modern-border);
+  border-radius: var(--modern-radius);
+  background-color: var(--modern-surface);
+  color: var(--modern-text);
+}
+:root .inforSoHoXi .design-datagrid-table th,
+:root .inforSoHoXi .design-editablegrid th { background: var(--modern-surface-alt); color: var(--modern-text); }
+
+
+/* SLXCustom: appearance overrides */
+
+:root .inforSoHoXi .ButtonBar {
+  background-color: var(--modern-surface-alt) !important;
+  border-radius: var(--modern-radius);
+}
+:root .inforSoHoXi .ButtonBar input[type="submit"] {
+  background: var(--modern-action) !important;
+  color: var(--modern-on-accent);
+  border: 1px solid transparent;
+  border-radius: var(--modern-radius);
+  text-transform: none;
+}
+:root .inforSoHoXi .ButtonBar :is(label, .lbl) { color: var(--modern-text); }
+
